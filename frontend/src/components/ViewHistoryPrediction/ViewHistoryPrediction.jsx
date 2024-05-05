@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Slider from '@mui/material/Slider';
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllHistory, getHistoryById, getUserHistory } from '../../redux/slices/historyPredictionSlice';
@@ -51,7 +51,17 @@ function ViewHistoryPrediction() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [open, setOpen] = useState(false)
     const [opacity, setOpacity] = useState(0.50);
+    const [scale, setScale] = useState(1);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
 
+    const maskRef = useRef(null)
+
+    const handleZoomIn = () => {
+        setScale(scale => scale + 0.1)
+    }
+    const handleZoomOut = () => {
+        setScale(scale => scale - 0.1)
+    }
     const handleChangePage = (event, newPage) => {
         setHistPerPage(all_history.slice(newPage * rowsPerPage, (newPage + 1) * rowsPerPage))
         setPage(newPage);
@@ -100,6 +110,45 @@ function ViewHistoryPrediction() {
         setHistPerPage(all_history.slice(page * rowsPerPage, (page + 1) * rowsPerPage))
     }, [all_history])
 
+    useEffect(() => {
+        const mask = maskRef.current
+        let isDragging = false
+        let prevPosition = { x: 0, y: 0 }
+
+        const handleMousedown = (e) => {
+            e.preventDefault()
+            isDragging = true
+            prevPosition = { x: e.clientX, y: e.clientY }
+        }
+
+        const handleMouseMove = (e) => {
+            e.preventDefault()
+            if (!isDragging) return;
+            const deltaX = e.clientX - prevPosition.x
+            const deltaY = e.clientY - prevPosition.y
+            prevPosition = { x: e.clientX, y: e.clientY }
+            setPosition(position => ({
+                x: position.x + deltaX,
+                y: position.y + deltaY,
+            }))
+        }
+
+        const handleMouseUp = () => {
+            isDragging = false
+        }
+
+        mask?.addEventListener("mousedown", handleMousedown)
+        mask?.addEventListener("mousemove", handleMouseMove)
+        mask?.addEventListener("mouseup", handleMouseUp)
+
+
+        return () => {
+            mask?.removeEventListener("mousedown", handleMousedown)
+            mask?.removeEventListener("mousemove", handleMouseMove)
+            mask?.removeEventListener("mouseup", handleMouseUp)
+        }
+
+    }, [maskRef, scale])
 
     return (
         <ThemeProvider theme={viewHistoryPredictionTheme}>
@@ -163,7 +212,7 @@ function ViewHistoryPrediction() {
 
             <Modal
                 open={open}
-                onClose={() => { setOpacity(0.5); setOpen(false) }}
+                onClose={() => { setOpacity(0.5); setOpen(false); setPosition({ x: 0, y: 0 }); setScale(1) }}
             >
                 <div className={classes.resultModal}>
                     <h3 className={classes.modalTitle}>Result</h3>
@@ -171,9 +220,28 @@ function ViewHistoryPrediction() {
                     <span className={classes.modalText}>Label: {view_hist.label}</span>
                     <span className={classes.modalText}>Classification accuracy: {view_hist.classification_accuracy}%</span>
 
-                    <div className={classes.modalImg}>
-                        <img src={"http:\/\/localhost:8000\/images\/input_images\/" + handlePath(view_hist.input_img_path)} alt="input" className={classes.resultInput} />
-                        <img src={"http:\/\/localhost:8000\/images\/masks\/" + handlePath(view_hist.output_img_path)} alt="mask" style={{ opacity: opacity }} className={classes.resultMask} />
+                    <div className={classes.modalImg} style={{ overflow: 'hidden', border: '1px solid #c4c4c4' }}>
+                        <div className={classes.zoomInBtn} onClick={handleZoomIn}>+</div>
+                        <div className={classes.zoomOutBtn} onClick={handleZoomOut}>-</div>
+                        <img
+                            src={"http:\/\/localhost:8000\/images\/input_images\/" + handlePath(view_hist.input_img_path)}
+                            alt="input"
+                            style={{
+                                transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`
+                            }}
+                            className={classes.resultInput}
+                        />
+                        <img
+                            ref={maskRef}
+                            src={"http:\/\/localhost:8000\/images\/masks\/" + handlePath(view_hist.output_img_path)}
+                            alt="mask"
+                            style={{
+                                cursor: 'move',
+                                opacity: opacity,
+                                transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`
+                            }}
+                            className={classes.resultMask}
+                        />
                     </div>
 
                     <Slider defaultValue={opacity * 100} onChange={e => setOpacity(e.target.value / 100)} />
