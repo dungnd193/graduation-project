@@ -14,7 +14,7 @@ export const signInThunk = createAsyncThunk(
             });
             return response.data;
         } catch (err) {
-            throw new Error(err)
+            throw new Error(err.response.data.detail)
         }
     }
 );
@@ -86,10 +86,10 @@ export const authenticationSlice = createSlice({
                     theme: "light",
                 });
             })
-            .addCase(signInThunk.rejected, (state) => {
+            .addCase(signInThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
-                toast.error('Something wrong! Please try again!', {
+                toast.error(action.error.message || 'Something wrong! Please try again!', {
                     position: "bottom-right",
                     autoClose: 5000,
                     hideProgressBar: false,

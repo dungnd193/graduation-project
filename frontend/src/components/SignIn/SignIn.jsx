@@ -18,9 +18,7 @@ function SignIn() {
     const loading = useSelector(state => state.authenticationSlice.loading)
 
     const handleSignIn = () => {
-        dispatch(signInThunk({ username, password })).then(() => {
-            navigate("/")
-        })
+        dispatch(signInThunk({ username, password }))
     }
 
     const handleNavigateSignUp = () => {
@@ -30,6 +28,8 @@ function SignIn() {
     useEffect(() => {
         if (!accessToken) {
             navigate('/sign-in')
+        } else {
+            navigate('/')
         }
     }, [])
     return !accessToken ? (
