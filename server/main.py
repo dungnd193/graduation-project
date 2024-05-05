@@ -220,8 +220,8 @@ async def forgery_image_predict(upload_file: UploadFile, user_id, classification
         mask_file_name = os.path.splitext(os.path.basename(file_path))[0]+"_mask.png"
         mask_path = os.path.join(masks_directory, mask_file_name)
         call(["python", 
-            r"E:\dungnd\MMFusion-IML\inference.py", 
-            "--exp", r'E:\dungnd\MMFusion-IML\experiments\ec_example_phase2.yaml',
+            r"D:\dungnd\GraduationProject\MMFusion-IML\inference.py", 
+            "--exp", r'D:\dungnd\GraduationProject\MMFusion-IML\experiments\ec_example_phase2.yaml',
             "--ckpt", loc_model_path,
             "--path", file_path])
         
@@ -269,8 +269,8 @@ async def ai_generated_predict(upload_file: UploadFile, user_id, classification_
         mask_file_name = os.path.splitext(os.path.basename(file_path))[0]+"_mask.png"
         mask_path = os.path.join(masks_directory, mask_file_name)
         call(["python", 
-            r"E:\dungnd\MMFusion-IML\inference.py", 
-            "--exp", r'E:\dungnd\MMFusion-IML\experiments\ec_example_phase2.yaml',
+            r"D:\dungnd\GraduationProject\MMFusion-IML\inference.py", 
+            "--exp", r'D:\dungnd\GraduationProject\MMFusion-IML\experiments\ec_example_phase2.yaml',
             "--ckpt", loc_model_path,
             "--path", file_path])
         

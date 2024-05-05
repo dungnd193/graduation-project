@@ -28,9 +28,9 @@ DATASET:
 MODEL:
   NAME: model_25_04_2024_phase2
   MODALS: ['img', 'noiseprint', 'bayar', 'srm']
-  PRETRAINED: 'E:\dungnd\MMFusion-IML\pretrained\segformer\mit_b2.pth'
+  PRETRAINED: 'D:\dungnd\GraduationProject\MMFusion-IML\pretrained\segformer\mit_b2.pth'
   NUM_CLASSES: 2
   BACKBONE: MixCMNeXtMHSA-B2
   DETECTION: 'confpool'
   TRAIN_PHASE: 'detection'
-  NP_WEIGHTS: 'E:\dungnd\MMFusion-IML\pretrained\noiseprint\np++.pth'
+  NP_WEIGHTS: 'D:\dungnd\GraduationProject\MMFusion-IML\pretrained\noiseprint\np++.pth'
