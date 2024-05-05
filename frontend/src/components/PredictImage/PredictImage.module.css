@@ -1,0 +1,128 @@
+.container {
+    width: 60%;
+    height: 960px;
+    margin: 30px auto;
+    padding: 20px;
+    padding-top: 40px;
+    border: solid 1px #c4c4c4;
+    border-radius: 4px;
+    box-shadow: rgba(87, 161, 248, 0.4) -5px 5px, rgba(87, 161, 248, 0.3) -10px 10px, rgba(87, 161, 248, 0.2) -15px 15px, rgba(87, 161, 248, 0.1) -20px 20px, rgba(87, 161, 248, 0.05) -25px 25px;
+    position: relative;
+}
+
+
+.title {
+    color: #57a1f8;
+    font-family: "Microsoft YaHei";
+    font-weight: 400;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.backDashboard {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    color: #447ec0;
+    cursor: pointer;
+}
+
+.row {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.rowText {
+    width: 150px;
+    font-size: 14px;
+    font-weight: 400;
+    margin-right: 20px;
+}
+
+.inputField {
+    flex: 1;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-family: montserrat;
+    color: #000;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.inputField:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #57a1f8;
+    outline-width: 0;
+    transition: All 0.3s ease-in;
+    -webkit-transition: All 0.3s ease-in;
+    -moz-transition: All 0.3s ease-in;
+    -o-transition: All 0.3s ease-in;
+}
+
+.h3text {
+    width: 50%;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.imgGroup {
+    display: flex;
+    column-gap: 20px;
+}
+
+.boxLeft,
+.boxRight {
+    width: 50%;
+    height: 500px;
+    border: 1px solid #333;
+}
+
+.boxLeft2,
+.boxRight2 {
+    width: 50%;
+
+}
+
+.boxLeft {
+    padding: 20px;
+}
+
+.boxLeft>h3 {
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.boxRight {
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.maskPath {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%
+}

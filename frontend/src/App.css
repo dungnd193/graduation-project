@@ -1,0 +1,12 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
+.body {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  background-color: #f6f8fc;
+  height: calc(100vh - 90px);
+}
