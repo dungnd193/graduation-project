@@ -1,0 +1,36 @@
+CUDNN:
+  BENCHMARK: true
+  DETERMINISTIC: false
+  ENABLED: true
+WORKERS: 10
+ACCUMULATE_ITERS: 6
+BATCH_SIZE: 4
+WARMUP_EPOCHS: 2
+EPOCHS: 100
+
+LEARNING_RATE: 0.005
+SGD_MOMENTUM: 0.9
+WD: 0.0005
+POLY_POWER: 0.9
+
+DATASET:
+  NUM_CLASSES: 2
+  TRAIN:
+    - './data/CAT-Net_splits/train/CASIA_v2_manip.txt'
+    - './data/CAT-Net_splits/train/CASIA_v2_auth.txt'
+  VAL:
+    - './data/CAT-Net_splits/val/CASIA_v2_manip.txt'
+    - './data/CAT-Net_splits/val/CASIA_v2_auth.txt'
+
+  IMG_SIZE: 256
+  CLASS_WEIGHTS: [0.5, 2.5]
+
+MODEL:
+  NAME: model_25_04_2024_phase2
+  MODALS: ['img', 'noiseprint', 'bayar', 'srm']
+  PRETRAINED: 'E:\dungnd\MMFusion-IML\pretrained\segformer\mit_b2.pth'
+  NUM_CLASSES: 2
+  BACKBONE: MixCMNeXtMHSA-B2
+  DETECTION: 'confpool'
+  TRAIN_PHASE: 'detection'
+  NP_WEIGHTS: 'E:\dungnd\MMFusion-IML\pretrained\noiseprint\np++.pth'
