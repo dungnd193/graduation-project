@@ -164,6 +164,7 @@ function PredictImage() {
                             width: '200px',
                             height: '48px',
                             marginLeft: '20px',
+                            backgroundColor: '#57a1f8',
                         }}
                     >
                         Browse
