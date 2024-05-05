@@ -1,0 +1,59 @@
+Thu muc E:/dungnd/data/CASIA
++, CASIA2_Groundtruth: folder chua ground truth cua tap du lieu CASIA2
++, CASIA/Au: folder chua anh Authentic
++, CASIA/Tp: folder chua anh Tamper
++, CASIA/JPG: folder chua anh JPG
+
+- Chay file E:\dungnd\CAT-Net\splicing\data\dataset_CASIA.py, sau khi chay xong se tao ra 2 file:
++, CASIA_list.txt: file nay chua thong tin: anh_tamper(.tif, .jpg), ground_truth, anh_tamper(.jpg)
++, CASIA_v2_auth_list.txt: file nay chua thong tin: anh_authentic(.bmp, .JPG), ground_truth, anh_tamper(.jpg, .JPG)
+
+CASIA_v2_auth_test_list.txt: chua 300 anh trong file CASIA_v2_auth_list.txt => muc dich cho viec test
+CASIA_v2_auth_valid_list.txt: chua 100 anh trong file CASIA_v2_auth_list.txt => muc dich cho viec validate
+CASIA_v2_auth_train_list.txt: chua anh con lai trong  file CASIA_v2_auth_list.txt => muc dich cho viec train
+
+CASIA_v2_test_list.txt: chua 300 anh trong file CASIA_list.txt => muc dich cho viec test
+CASIA_v2_valid_list.txt: chua 100 anh trong file CASIA_list.txt => muc dich cho viec validate
+CASIA_v2_train_list.txt: chua anh con lai trong  file CASIA_list.txt => muc dich cho viec train
+
+
+- Chay file E:\dungnd\CAT-Net\tools\train.py de bat dau qua trinh huan luyen
+Weight se duoc luu trong folder E:\dungnd\CAT-Net\output\splicing_dataset\CAT_full
+Ket qua cua toan bo qua trinh training se duoc luu trong file E:\dungnd\CAT-Net\training_process.txt
+
+__________________
+MMFUSION-IML
+Thu muc data\Casiav2\
+            Au: folder chua anh Authentic
+            mask: folder chua ground truth
+            tampered: folder chua anh Tamper
+
+IDT-Casiav2-auth.txt: chua path cua 7491 anh Authentic theo format (path, mask=None, label=0)
+IDT-Casiav2-manip.txt: chua path cua 5095 anh Tamper theo format (path, mask, label=1)
+
+data\CAT-Net_splits\val\CAISA_v2_auth.txt: chua path cua 100 anh  Authentic
+data\CAT-Net_splits\val\CAISA_v2_manip.txt: chua path cua 100 anh  Tamper
+
+data\CAT-Net_splits\train\CAISA_v2_auth.txt: chua path cua anh Authentic con lai
+data\CAT-Net_splits\train\CAISA_v2_manip.txt: chua path cua anh Tamper con lai
+
+Chay cau lenh sau de predict mask cua anh tampered (thay path cua anh muon predict):
+python .\inference.py --exp .\experiments\ec_example_phase2.yaml --ckpt .\ckpt\early_fusion_detection.pth --path E:\\dungnd\\MMFusion-IML\\Tp_D_CND_S_N_ani00073_ani00068_00193.tif
+
+
+# test localization
+python .\test_localization.py --exp .\experiments\ec_example.yaml --ckpt .\ckpt\early_fusion_localization.pth --manip .\data\IDT-Casiav2-manip.txt     
+
+# Train localization 
+python .\ec_train.py --exp .\experiments\ec_example.yaml 
+Ket qua duoc luu trong file E:\dungnd\MMFusion-IML\training_process_v2_phase1.txt
+
+
+# Test detection
+python test_detection.py --exp .\experiments\ec_example_phase2.yaml --ckpt .\ckpt\model_23_04_2024_phase2\best_val_loss.pth --manip .\data\IDT-Casiav2-manip.txt --auth .\data\IDT-Casiav2-auth.txt
+
+
+# Train detection
+python ec_train_phase2.py --ckpt .\ckpt\model_25_04_2024\best_val_loss.pth --exp .\experiments\ec_example_phase2.yaml
+Ket qua cua qua trinh training trong file E:\dungnd\MMFusion-IML\training_process_v2_phase2.txt
+
