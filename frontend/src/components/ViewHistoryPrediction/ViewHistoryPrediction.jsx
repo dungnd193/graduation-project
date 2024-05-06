@@ -100,11 +100,11 @@ function ViewHistoryPrediction() {
         if (user.role_id == ROLE.USER) {
             dispatch(getUserHistory(user.id))
         }
-    }, [])
+    }, [user])
 
     useEffect(() => {
         dispatch(getAllModels())
-    }, [])
+    }, [user])
 
     useEffect(() => {
         setHistPerPage(all_history.slice(page * rowsPerPage, (page + 1) * rowsPerPage))

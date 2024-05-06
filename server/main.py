@@ -498,7 +498,6 @@ async def get_models_by_name(db: db_dependency, name: str = None) -> List[ModelB
 @app.put("/models/{classification_model_id}", status_code=status.HTTP_200_OK)
 async def update_model(classification_model_id: int, updated_model: ModelBase, db: db_dependency):
     existing_model = db.query(be_models.Model).filter(be_models.Model.id == classification_model_id).first()
-    existing_model = db.query(be_models.Model).filter(be_models.Model.id == classification_model_id).first()
     if existing_model is None:
         raise HTTPException(status_code=404, detail="Model not found")
 
@@ -516,12 +515,14 @@ async def update_model(classification_model_id: int, updated_model: ModelBase, d
 
     return {"message": "Model updated successfully"}
 
-@app.delete("/models/{classification_model_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_model(classification_model_id: int, db: db_dependency):
-    existing_model = db.query(be_models.Model).filter(be_models.Model.id == classification_model_id).first()
-    existing_model = db.query(be_models.Model).filter(be_models.Model.id == classification_model_id).first()
+@app.delete("/models/{model_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_model(model_id: int, db: db_dependency):
+    existing_model = db.query(be_models.Model).filter(be_models.Model.id == model_id).first()
+        
     if existing_model is None:
         raise HTTPException(status_code=404, detail="Model not found")
+    if os.path.isfile(existing_model.path):
+        os.remove(existing_model.path)
 
     db.delete(existing_model)
     db.commit()

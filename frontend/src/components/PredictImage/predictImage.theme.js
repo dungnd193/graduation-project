@@ -32,6 +32,7 @@ const predictImageTheme = createTheme({
                 root: {
                     width: "60px !important",
                     height: "60px !important",
+                    animation: "none"
                 },
             },
         },
