@@ -1,6 +1,7 @@
 import argparse
 import os
 import numpy as np
+import cv2
 from torch.utils.data import DataLoader
 import torch
 import torchvision.transforms.functional as TF
@@ -39,6 +40,28 @@ if device != 'cpu':
     cudnn.deterministic = True
     cudnn.enabled = config.CUDNN.ENABLED
 
+def convertHeatmapToEdge(heatmap_path=""):
+    # Read the heat map image
+    heat_map = cv2.imread(heatmap_path, cv2.IMREAD_GRAYSCALE)
+
+    # Apply thresholding to convert to binary image
+    _, binary_image = cv2.threshold(heat_map, 127, 255, cv2.THRESH_BINARY)
+
+    # Find contours
+    contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    # Create a transparent blank canvas
+    canvas = np.zeros((heat_map.shape[0], heat_map.shape[1], 4), dtype=np.uint8)
+    canvas[:, :, 3] = 0  # Set alpha channel to 0 (fully transparent)
+
+    # Choose a color for the contour (BGR format)
+    contour_color = (0, 0, 255)  # Red color
+
+    # Draw contours on the canvas with the specified color
+    cv2.drawContours(canvas, contours, -1, contour_color + (255,), 2)  # Contour color with full opacity
+
+
+    cv2.imwrite(heatmap_path, canvas)
 
 def main():
     modal_extractor = ModalitiesExtractor(config.MODEL.MODALS[1:], config.MODEL.NP_WEIGHTS)
@@ -91,6 +114,7 @@ def main():
             det = detection.item()
 
             plt.imsave(target, map, cmap='RdBu_r', vmin=0, vmax=1)
+            convertHeatmapToEdge(target)
     os.remove('tmp_inf.txt')
     print(f"Ran on {args.path}")
     print(f"Detection score: {det}")

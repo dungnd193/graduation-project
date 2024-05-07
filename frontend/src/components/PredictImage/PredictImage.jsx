@@ -35,7 +35,7 @@ function PredictImage() {
     const all_models = useSelector(state => state.modelSlice.all_models)
     const user = useSelector(state => state.userInformationSlice.user)
     const { loading, result } = useSelector(state => state.predictImageSlice)
-    const [opacity, setOpacity] = useState(0.50);
+    const [opacity, setOpacity] = useState(1);
     const [selectedFile, setSelectedFile] = useState(null);
     const [imageUrl, setImageUrl] = useState('');
     const [imgInfo, setImgInfo] = useState({
@@ -209,7 +209,7 @@ function PredictImage() {
                         {result.mask_path && <img src={handleMaskPath(result.mask_path)} alt="Mask Path" className={classes.maskPath} style={{ opacity: opacity }} />}
                     </div>
                 </div>
-                {result.mask_path && <div className={classes.imgGroup}>
+                {false && result.mask_path && <div className={classes.imgGroup}>
                     <div className={classes.boxLeft2}>
                     </div>
                     <div className={classes.boxRight2}>

@@ -68,13 +68,13 @@ function Dashboard() {
         <ThemeProvider theme={dashboardTheme}>
             <div className={classes.container}>
                 <img src={DashboardImg} alt="dashboard-img" className={classes.dashboardImg} />
-                {user.role_id == ADMIN && <div className={classes.dashboardBtnGroup}>
+                {!redirectToSignIn && user.role_id == ADMIN && <div className={classes.dashboardBtnGroup}>
                     <Button variant="contained" sx={{ backgroundColor: '#57a1f8' }} onClick={() => navigate("/user-management")}>User Management</Button>
                     <Button variant="contained" sx={{ backgroundColor: '#57a1f8' }} onClick={() => navigate("/model-management")}>Model Management</Button>
                     <Button variant="contained" sx={{ backgroundColor: '#57a1f8' }} onClick={() => navigate("/view-history-prediction")}>View history prediction</Button>
                     <Button variant="contained" sx={{ backgroundColor: '#57a1f8' }} onClick={handleLogOut}>Log out</Button>
                 </div>}
-                {user.role_id == USER && <div className={classes.dashboardBtnGroup}>
+                {!redirectToSignIn && user.role_id == USER && <div className={classes.dashboardBtnGroup}>
                     <Button variant="contained" sx={{ backgroundColor: '#57a1f8' }} onClick={() => setOpen(true)}>Update Information</Button>
                     <Button variant="contained" sx={{ backgroundColor: '#57a1f8' }} onClick={() => navigate("/predict")}>Predict Image</Button>
                     <Button variant="contained" sx={{ backgroundColor: '#57a1f8' }} onClick={() => navigate("/view-history-prediction")}>View history prediction</Button>

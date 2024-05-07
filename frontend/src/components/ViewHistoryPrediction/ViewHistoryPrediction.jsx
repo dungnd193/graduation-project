@@ -50,7 +50,7 @@ function ViewHistoryPrediction() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [open, setOpen] = useState(false)
-    const [opacity, setOpacity] = useState(0.50);
+    const [opacity, setOpacity] = useState(1);
     const [scale, setScale] = useState(1);
     const [position, setPosition] = useState({ x: 0, y: 0 });
 
@@ -212,7 +212,7 @@ function ViewHistoryPrediction() {
 
             <Modal
                 open={open}
-                onClose={() => { setOpacity(0.5); setOpen(false); setPosition({ x: 0, y: 0 }); setScale(1) }}
+                onClose={() => { setOpacity(1); setOpen(false); setPosition({ x: 0, y: 0 }); setScale(1) }}
             >
                 <div className={classes.resultModal}>
                     <h3 className={classes.modalTitle}>Result</h3>
@@ -244,7 +244,7 @@ function ViewHistoryPrediction() {
                         />
                     </div>
 
-                    <Slider defaultValue={opacity * 100} onChange={e => setOpacity(e.target.value / 100)} />
+                    {false && <Slider defaultValue={opacity * 100} onChange={e => setOpacity(e.target.value / 100)} />}
 
                     <Button variant="contained" sx={{ backgroundColor: '#57a1f8', width: '100%', marginTop: '20px' }} onClick={() => setOpen(false)}>Close</Button>
                 </div>

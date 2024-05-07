@@ -553,7 +553,8 @@ async def get_all_history(db: db_dependency):
             "input_img_path": h.input_img_path,
             "output_img_path": h.output_img_path,
             "label": h.label,
-            "classification_accuracy": h.classification_accuracy
+            "classification_accuracy": h.classification_accuracy,
+            "creat_at": h.creat_at
         })
     return result
 
@@ -571,7 +572,8 @@ async def get_hist_by_user_id(user_id:int , db: db_dependency):
             "input_img_path": history.input_img_path,
             "output_img_path": history.output_img_path,
             "label": history.label,
-            "classification_accuracy": history.classification_accuracy
+            "classification_accuracy": history.classification_accuracy,
+            "creat_at": history.creat_at
         })
     return result
 
