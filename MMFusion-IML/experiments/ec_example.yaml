@@ -17,17 +17,25 @@ POLY_POWER: 0.9
 DATASET:
   NUM_CLASSES: 2
   TRAIN:
-    - './data/CAT-Net_splits/train/CASIA_v2_manip.txt'
-    - './data/CAT-Net_splits/train/CASIA_v2_auth.txt'
+    - './data/Casiav2_splits/train/CASIA_v2_manip.txt'
+    - './data/Casiav2_splits/train/CASIA_v2_auth.txt'
+    # - './data/USB-5_splits/train/USB-5-manip.txt'
+    # - './data/USB-5_splits/train/USB-5-auth.txt'
+    # - './data/USB-6_splits/train/USB-6-manip.txt'
+    # - './data/USB-6_splits/train/USB-6-auth.txt'
   VAL:
-    - './data/CAT-Net_splits/val/CASIA_v2_manip.txt'
-    - './data/CAT-Net_splits/val/CASIA_v2_auth.txt'
+    - './data/Casiav2_splits/val/CASIA_v2_manip.txt'
+    - './data/Casiav2_splits/val/CASIA_v2_auth.txt'
+    # - './data/USB-5_splits/val/USB-5-manip.txt'
+    # - './data/USB-5_splits/val/USB-5-auth.txt'
+    # - './data/USB-6_splits/val/USB-6-manip.txt'
+    # - './data/USB-6_splits/val/USB-6-auth.txt'
 
   IMG_SIZE: 256
   CLASS_WEIGHTS: [0.5, 2.5]
 
 MODEL:
-  NAME: model_25_04_2024
+  NAME: model_18_05_2024_phase1
   MODALS: ['img', 'noiseprint', 'bayar', 'srm']
   PRETRAINED: 'pretrained/segformer/mit_b2.pth'
   NUM_CLASSES: 2

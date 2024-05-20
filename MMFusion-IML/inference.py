@@ -79,7 +79,7 @@ def main():
     model.eval()
 
     mask_name = os.path.basename(args.path).split(".")[0]+"_mask.png"
-    output_dir = r"D:\dungnd\GraduationProject\server\masks"
+    output_dir = r"..\server\masks"
 
     target = os.path.join(output_dir, mask_name)
     # target = args.path.split(".")[-2] + "_mask.png"

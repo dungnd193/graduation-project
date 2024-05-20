@@ -98,3 +98,17 @@ E:\dungnd\MMFusion-IML\data\Casiav2\Au\Au_arc_30358.jpg None 0
 E:\dungnd\MMFusion-IML\data\Casiav2\Au\Au_pla_30541.jpg None 0
 E:\dungnd\MMFusion-IML\data\Casiav2\Au\Au_ind_20063.jpg None 0
 E:\dungnd\MMFusion-IML\data\Casiav2\Au\Au_art_30291.jpg None 0
+D:\dungnd\data\DATA_USB\5\Real\DSC_0312.JPG None 0
+D:\dungnd\data\DATA_USB\5\Real\IMGP2063.JPG None 0
+D:\dungnd\data\DATA_USB\5\Real\DSC_0728.JPG None 0
+D:\dungnd\data\DATA_USB\5\Real\IMGP2070.JPG None 0
+D:\dungnd\data\DATA_USB\5\Real\DSC_0405.JPG None 0
+D:\dungnd\data\DATA_USB\5\Real\DSC_0721.JPG None 0
+D:\dungnd\data\DATA_USB\5\Real\IMGP2066.JPG None 0
+D:\dungnd\data\DATA_USB\6\Real\IMGP1982.JPG None 0
+D:\dungnd\data\DATA_USB\6\Real\IMGP1983.JPG None 0
+D:\dungnd\data\DATA_USB\6\Real\IMGP1981.JPG None 0
+D:\dungnd\data\DATA_USB\6\Real\IMGP1959.JPG None 0
+D:\dungnd\data\DATA_USB\6\Real\IMGP1976.JPG None 0
+D:\dungnd\data\DATA_USB\6\Real\IMGP1964.JPG None 0
+D:\dungnd\data\DATA_USB\6\Real\[000053].jpg None 0

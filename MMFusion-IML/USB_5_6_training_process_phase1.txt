@@ -1,0 +1,400 @@
+Training Loss:0.13408435878845362 epoch: 0
+Val Loss: 0.7634806112762083 epoch: 0
+Val F1 best: 0.1294208 epoch: 0
+Val F1 fixed: 0.09846065642833758 epoch: 0
+Training Loss:0.12964567667016616 epoch: 1
+Val Loss: 0.7362210449288812 epoch: 1
+Val F1 best: 0.16436896 epoch: 1
+Val F1 fixed: 0.1240734816673985 epoch: 1
+Training Loss:0.12628333646230971 epoch: 2
+Val Loss: 0.711746847518442 epoch: 2
+Val F1 best: 0.1936056 epoch: 2
+Val F1 fixed: 0.14265409853249766 epoch: 2
+Training Loss:0.12270053768100647 epoch: 3
+Val Loss: 0.6827349432400966 epoch: 3
+Val F1 best: 0.2249105 epoch: 3
+Val F1 fixed: 0.16551185431235393 epoch: 3
+Training Loss:0.12057321122632576 epoch: 4
+Val Loss: 0.6604830492614654 epoch: 4
+Val F1 best: 0.25713012 epoch: 4
+Val F1 fixed: 0.18596206780297925 epoch: 4
+Training Loss:0.11797404372348236 epoch: 5
+Val Loss: 0.656095141822701 epoch: 5
+Val F1 best: 0.26288086 epoch: 5
+Val F1 fixed: 0.2061379731169126 epoch: 5
+Training Loss:0.1167999124326385 epoch: 6
+Val Loss: 0.6286424299407947 epoch: 6
+Val F1 best: 0.27536657 epoch: 6
+Val F1 fixed: 0.23026829710623942 epoch: 6
+Training Loss:0.1153198326135484 epoch: 7
+Val Loss: 0.6413782568844525 epoch: 7
+Val F1 best: 0.2761119 epoch: 7
+Val F1 fixed: 0.2283718088202511 epoch: 7
+Training Loss:0.1137282550177322 epoch: 8
+Val Loss: 0.6657707129294673 epoch: 8
+Val F1 best: 0.27817148 epoch: 8
+Val F1 fixed: 0.20307923531205505 epoch: 8
+Training Loss:0.1120738227163943 epoch: 9
+Val Loss: 0.6027252951702267 epoch: 9
+Val F1 best: 0.30161974 epoch: 9
+Val F1 fixed: 0.24491454342363012 epoch: 9
+Training Loss:0.11114526140145384 epoch: 10
+Val Loss: 0.5962875026948097 epoch: 10
+Val F1 best: 0.30470625 epoch: 10
+Val F1 fixed: 0.26320979851148424 epoch: 10
+Training Loss:0.11030978276537588 epoch: 11
+Val Loss: 0.5754708688820532 epoch: 11
+Val F1 best: 0.3238274 epoch: 11
+Val F1 fixed: 0.28355127537445574 epoch: 11
+Training Loss:0.11016078057627265 epoch: 12
+Val Loss: 0.6240107599286395 epoch: 12
+Val F1 best: 0.2982968 epoch: 12
+Val F1 fixed: 0.24283754384589273 epoch: 12
+Training Loss:0.10944474476891068 epoch: 13
+Val Loss: 0.5798903599405956 epoch: 13
+Val F1 best: 0.31985775 epoch: 13
+Val F1 fixed: 0.28163654201956395 epoch: 13
+Training Loss:0.10811941528263 epoch: 14
+Val Loss: 0.5454115972511078 epoch: 14
+Val F1 best: 0.34381315 epoch: 14
+Val F1 fixed: 0.29903260536961707 epoch: 14
+Training Loss:0.10749711251674363 epoch: 15
+Val Loss: 0.5633301342951885 epoch: 15
+Val F1 best: 0.329583 epoch: 15
+Val F1 fixed: 0.29618539889004175 epoch: 15
+Training Loss:0.10743339503398881 epoch: 16
+Val Loss: 0.5525020519394035 epoch: 16
+Val F1 best: 0.3378053 epoch: 16
+Val F1 fixed: 0.30581798041325403 epoch: 16
+Training Loss:0.10693472300871061 epoch: 17
+Val Loss: 0.5609886139394356 epoch: 17
+Val F1 best: 0.3391531 epoch: 17
+Val F1 fixed: 0.3071095910894465 epoch: 17
+Training Loss:0.10659761673484285 epoch: 18
+Val Loss: 0.570581309893577 epoch: 18
+Val F1 best: 0.32338196 epoch: 18
+Val F1 fixed: 0.2874028965722768 epoch: 18
+Training Loss:0.10669268494471908 epoch: 19
+Val Loss: 0.5737765437204456 epoch: 19
+Val F1 best: 0.3228892 epoch: 19
+Val F1 fixed: 0.2817229677973415 epoch: 19
+Training Loss:0.10517728334149488 epoch: 20
+Val Loss: 0.563287468128756 epoch: 20
+Val F1 best: 0.33036068 epoch: 20
+Val F1 fixed: 0.2926144666744334 epoch: 20
+Training Loss:0.10529371557327417 epoch: 21
+Val Loss: 0.5584725654161159 epoch: 21
+Val F1 best: 0.33124754 epoch: 21
+Val F1 fixed: 0.2977182809501824 epoch: 21
+Training Loss:0.10608288115248657 epoch: 22
+Val Loss: 0.5670397614308617 epoch: 22
+Val F1 best: 0.34548417 epoch: 22
+Val F1 fixed: 0.3097450310797788 epoch: 22
+Training Loss:0.10460303178845116 epoch: 23
+Val Loss: 0.5541481562979977 epoch: 23
+Val F1 best: 0.33767843 epoch: 23
+Val F1 fixed: 0.28790125188034704 epoch: 23
+Training Loss:0.10444688455416606 epoch: 24
+Val Loss: 0.5438197028512756 epoch: 24
+Val F1 best: 0.3459114 epoch: 24
+Val F1 fixed: 0.3116956478188255 epoch: 24
+Training Loss:0.10469182778722964 epoch: 25
+Val Loss: 0.5447669407891992 epoch: 25
+Val F1 best: 0.33800045 epoch: 25
+Val F1 fixed: 0.3032387426652603 epoch: 25
+Training Loss:0.10398075045444645 epoch: 26
+Val Loss: 0.547843157607866 epoch: 26
+Val F1 best: 0.34173167 epoch: 26
+Val F1 fixed: 0.3109525280737254 epoch: 26
+Training Loss:0.1029332558144457 epoch: 27
+Val Loss: 0.568844198028704 epoch: 27
+Val F1 best: 0.3328668 epoch: 27
+Val F1 fixed: 0.29811616813856356 epoch: 27
+Training Loss:0.10386919253147565 epoch: 28
+Val Loss: 0.5725995140668952 epoch: 28
+Val F1 best: 0.32309118 epoch: 28
+Val F1 fixed: 0.2925998615626018 epoch: 28
+Training Loss:0.10378363032323809 epoch: 29
+Val Loss: 0.5622047003268738 epoch: 29
+Val F1 best: 0.3207923 epoch: 29
+Val F1 fixed: 0.28997624490819324 epoch: 29
+Training Loss:0.10300177512618784 epoch: 30
+Val Loss: 0.5485257626952309 epoch: 30
+Val F1 best: 0.3383134 epoch: 30
+Val F1 fixed: 0.3008165324795724 epoch: 30
+Training Loss:0.10355856695857185 epoch: 31
+Val Loss: 0.5441967757876244 epoch: 31
+Val F1 best: 0.3434119 epoch: 31
+Val F1 fixed: 0.30578607696761917 epoch: 31
+Training Loss:0.1027161728289838 epoch: 32
+Val Loss: 0.5560972449500441 epoch: 32
+Val F1 best: 0.3328114 epoch: 32
+Val F1 fixed: 0.30433245922200014 epoch: 32
+Training Loss:0.10302749624905679 epoch: 33
+Val Loss: 0.5550102692898036 epoch: 33
+Val F1 best: 0.3311156 epoch: 33
+Val F1 fixed: 0.3034298263839734 epoch: 33
+Training Loss:0.10234467471519915 epoch: 34
+Val Loss: 0.5417011891115915 epoch: 34
+Val F1 best: 0.3385983 epoch: 34
+Val F1 fixed: 0.31198015257649 epoch: 34
+Training Loss:0.10247751032217191 epoch: 35
+Val Loss: 0.5382883710472175 epoch: 35
+Val F1 best: 0.3456644 epoch: 35
+Val F1 fixed: 0.3102868286149538 epoch: 35
+Training Loss:0.10210134358216937 epoch: 36
+Val Loss: 0.55054707660977 epoch: 36
+Val F1 best: 0.33608407 epoch: 36
+Val F1 fixed: 0.306350625370818 epoch: 36
+Training Loss:0.10183694961767358 epoch: 37
+Val Loss: 0.5473688526279211 epoch: 37
+Val F1 best: 0.34209636 epoch: 37
+Val F1 fixed: 0.31451075910852555 epoch: 37
+Training Loss:0.10148697786104793 epoch: 38
+Val Loss: 0.5393293408775016 epoch: 38
+Val F1 best: 0.34894273 epoch: 38
+Val F1 fixed: 0.31949843181217114 epoch: 38
+Training Loss:0.1016084459151786 epoch: 39
+Val Loss: 0.5471908278608074 epoch: 39
+Val F1 best: 0.35125762 epoch: 39
+Val F1 fixed: 0.31679348536526175 epoch: 39
+Training Loss:0.10247681765243984 epoch: 40
+Val Loss: 0.5412681812559369 epoch: 40
+Val F1 best: 0.33981457 epoch: 40
+Val F1 fixed: 0.319601314149162 epoch: 40
+Training Loss:0.10107177122030407 epoch: 41
+Val Loss: 0.5465213284835938 epoch: 41
+Val F1 best: 0.34242094 epoch: 41
+Val F1 fixed: 0.31679278954178614 epoch: 41
+Training Loss:0.10079649217426777 epoch: 42
+Val Loss: 0.5768377548675951 epoch: 42
+Val F1 best: 0.32223782 epoch: 42
+Val F1 fixed: 0.29193919533673385 epoch: 42
+Training Loss:0.10100656452015615 epoch: 43
+Val Loss: 0.5460541291987491 epoch: 43
+Val F1 best: 0.3364228 epoch: 43
+Val F1 fixed: 0.3070141617417777 epoch: 43
+Training Loss:0.10132996279961215 epoch: 44
+Val Loss: 0.5317056965278951 epoch: 44
+Val F1 best: 0.35117543 epoch: 44
+Val F1 fixed: 0.32248023452434976 epoch: 44
+Training Loss:0.10059630419700764 epoch: 45
+Val Loss: 0.5357418866141846 epoch: 45
+Val F1 best: 0.35448194 epoch: 45
+Val F1 fixed: 0.331542609779064 epoch: 45
+Training Loss:0.1004608610035995 epoch: 46
+Val Loss: 0.5687978992712471 epoch: 46
+Val F1 best: 0.3338139 epoch: 46
+Val F1 fixed: 0.30543724706455966 epoch: 46
+Training Loss:0.09998121201347274 epoch: 47
+Val Loss: 0.5596458594919297 epoch: 47
+Val F1 best: 0.34196657 epoch: 47
+Val F1 fixed: 0.3078715229929428 epoch: 47
+Training Loss:0.10050035807447365 epoch: 48
+Val Loss: 0.5392311527026131 epoch: 48
+Val F1 best: 0.35163024 epoch: 48
+Val F1 fixed: 0.3286886166412145 epoch: 48
+Training Loss:0.09959891765163495 epoch: 49
+Val Loss: 0.5241767852975611 epoch: 49
+Val F1 best: 0.3506578 epoch: 49
+Val F1 fixed: 0.3237672040446961 epoch: 49
+Training Loss:0.09993643704300316 epoch: 50
+Val Loss: 0.5408816072934618 epoch: 50
+Val F1 best: 0.35150272 epoch: 50
+Val F1 fixed: 0.32316826235179785 epoch: 50
+Training Loss:0.10015902751591056 epoch: 51
+Val Loss: 0.5436368243760642 epoch: 51
+Val F1 best: 0.3419008 epoch: 51
+Val F1 fixed: 0.3158627826362856 epoch: 51
+Training Loss:0.10016673981713561 epoch: 52
+Val Loss: 0.5421861295584229 epoch: 52
+Val F1 best: 0.34920743 epoch: 52
+Val F1 fixed: 0.3250257769116431 epoch: 52
+Training Loss:0.09893555710522028 epoch: 53
+Val Loss: 0.52812196725669 epoch: 53
+Val F1 best: 0.35029143 epoch: 53
+Val F1 fixed: 0.32469274930967174 epoch: 53
+Training Loss:0.10010955473802124 epoch: 54
+Val Loss: 0.5614250445362639 epoch: 54
+Val F1 best: 0.33073044 epoch: 54
+Val F1 fixed: 0.29776086377339145 epoch: 54
+Training Loss:0.0997987622079941 epoch: 55
+Val Loss: 0.5619234896036225 epoch: 55
+Val F1 best: 0.32774976 epoch: 55
+Val F1 fixed: 0.3008728823492611 epoch: 55
+Training Loss:0.09981201113488239 epoch: 56
+Val Loss: 0.5288775702795472 epoch: 56
+Val F1 best: 0.35944742 epoch: 56
+Val F1 fixed: 0.3270863373548457 epoch: 56
+Training Loss:0.09881589744848987 epoch: 57
+Val Loss: 0.5307705360219667 epoch: 57
+Val F1 best: 0.35393816 epoch: 57
+Val F1 fixed: 0.3185962052050287 epoch: 57
+Training Loss:0.09934838813801225 epoch: 58
+Val Loss: 0.544539287386119 epoch: 58
+Val F1 best: 0.35280064 epoch: 58
+Val F1 fixed: 0.3156928897099793 epoch: 58
+Training Loss:0.09799531972644707 epoch: 59
+Val Loss: 0.5456904797741261 epoch: 59
+Val F1 best: 0.3498051 epoch: 59
+Val F1 fixed: 0.3174913837868726 epoch: 59
+Training Loss:0.09749978565682585 epoch: 60
+Val Loss: 0.5578577920157266 epoch: 60
+Val F1 best: 0.33723214 epoch: 60
+Val F1 fixed: 0.2982780747797554 epoch: 60
+Training Loss:0.09877572011274215 epoch: 61
+Val Loss: 0.5464370298861084 epoch: 61
+Val F1 best: 0.35506248 epoch: 61
+Val F1 fixed: 0.31829478710144204 epoch: 61
+Training Loss:0.09861902609825707 epoch: 62
+Val Loss: 0.5793959476021037 epoch: 62
+Val F1 best: 0.32924384 epoch: 62
+Val F1 fixed: 0.2948559188633626 epoch: 62
+Training Loss:0.09795905472710728 epoch: 63
+Val Loss: 0.5374995959910417 epoch: 63
+Val F1 best: 0.35538188 epoch: 63
+Val F1 fixed: 0.318312776704547 epoch: 63
+Training Loss:0.09812781834330123 epoch: 64
+Val Loss: 0.5357727584686425 epoch: 64
+Val F1 best: 0.3464153 epoch: 64
+Val F1 fixed: 0.3207624073460406 epoch: 64
+Training Loss:0.0983572891068 epoch: 65
+Val Loss: 0.5184897428190565 epoch: 65
+Val F1 best: 0.36154097 epoch: 65
+Val F1 fixed: 0.33565741437639124 epoch: 65
+Training Loss:0.09755372878629714 epoch: 66
+Val Loss: 0.5337674414734928 epoch: 66
+Val F1 best: 0.34126773 epoch: 66
+Val F1 fixed: 0.31869457129708184 epoch: 66
+Training Loss:0.09745929274994593 epoch: 67
+Val Loss: 0.5437425734912323 epoch: 67
+Val F1 best: 0.34359002 epoch: 67
+Val F1 fixed: 0.3185203384223744 epoch: 67
+Training Loss:0.09692308054950374 epoch: 68
+Val Loss: 0.5252448434271572 epoch: 68
+Val F1 best: 0.35267425 epoch: 68
+Val F1 fixed: 0.33168585222829244 epoch: 68
+Training Loss:0.097210798115971 epoch: 69
+Val Loss: 0.5249156406161523 epoch: 69
+Val F1 best: 0.36852035 epoch: 69
+Val F1 fixed: 0.32962429849282276 epoch: 69
+Training Loss:0.09762782431852358 epoch: 70
+Val Loss: 0.5410065481361622 epoch: 70
+Val F1 best: 0.34946233 epoch: 70
+Val F1 fixed: 0.32282939162573604 epoch: 70
+Training Loss:0.09717142834149015 epoch: 71
+Val Loss: 0.5560765411600618 epoch: 71
+Val F1 best: 0.34449297 epoch: 71
+Val F1 fixed: 0.3106606738681593 epoch: 71
+Training Loss:0.09640080772591038 epoch: 72
+Val Loss: 0.5496473440485843 epoch: 72
+Val F1 best: 0.34963515 epoch: 72
+Val F1 fixed: 0.31388270120008943 epoch: 72
+Training Loss:0.09722245442179533 epoch: 73
+Val Loss: 0.5537947189663291 epoch: 73
+Val F1 best: 0.35111505 epoch: 73
+Val F1 fixed: 0.32242626588237155 epoch: 73
+Training Loss:0.09738266471200265 epoch: 74
+Val Loss: 0.5502599124886554 epoch: 74
+Val F1 best: 0.35772777 epoch: 74
+Val F1 fixed: 0.33102039798384897 epoch: 74
+Training Loss:0.09620194315408857 epoch: 75
+Val Loss: 0.5366466351613206 epoch: 75
+Val F1 best: 0.35390863 epoch: 75
+Val F1 fixed: 0.3231127770497259 epoch: 75
+Training Loss:0.0972041124306046 epoch: 76
+Val Loss: 0.5459404538146613 epoch: 76
+Val F1 best: 0.3542843 epoch: 76
+Val F1 fixed: 0.3266523208576361 epoch: 76
+Training Loss:0.09603461959291823 epoch: 77
+Val Loss: 0.5423283777812398 epoch: 77
+Val F1 best: 0.35112962 epoch: 77
+Val F1 fixed: 0.32268273103508494 epoch: 77
+Training Loss:0.09541225226255706 epoch: 78
+Val Loss: 0.5493077760891123 epoch: 78
+Val F1 best: 0.36378297 epoch: 78
+Val F1 fixed: 0.32635825289506626 epoch: 78
+Training Loss:0.09536125122426221 epoch: 79
+Val Loss: 0.5367775583729606 epoch: 79
+Val F1 best: 0.35523033 epoch: 79
+Val F1 fixed: 0.3220739028887852 epoch: 79
+Training Loss:0.09589328614493402 epoch: 80
+Val Loss: 0.5408911496694935 epoch: 80
+Val F1 best: 0.36068723 epoch: 80
+Val F1 fixed: 0.32685001180779144 epoch: 80
+Training Loss:0.09542424149667987 epoch: 81
+Val Loss: 0.5269648683698553 epoch: 81
+Val F1 best: 0.3599809 epoch: 81
+Val F1 fixed: 0.3294117248341302 epoch: 81
+Training Loss:0.09583610329633722 epoch: 82
+Val Loss: 0.5269272432217309 epoch: 82
+Val F1 best: 0.36319408 epoch: 82
+Val F1 fixed: 0.32751998631532425 epoch: 82
+Training Loss:0.09508689103074945 epoch: 83
+Val Loss: 0.5361719443503636 epoch: 83
+Val F1 best: 0.36750403 epoch: 83
+Val F1 fixed: 0.3234861634703216 epoch: 83
+Training Loss:0.09440925327487863 epoch: 84
+Val Loss: 0.5329045813608294 epoch: 84
+Val F1 best: 0.36824626 epoch: 84
+Val F1 fixed: 0.32988415576624086 epoch: 84
+Training Loss:0.09478901818752862 epoch: 85
+Val Loss: 0.5309872981998253 epoch: 85
+Val F1 best: 0.36648744 epoch: 85
+Val F1 fixed: 0.3415514159555874 epoch: 85
+Training Loss:0.09448605931113259 epoch: 86
+Val Loss: 0.5364001499685017 epoch: 86
+Val F1 best: 0.36078596 epoch: 86
+Val F1 fixed: 0.33313469692498826 epoch: 86
+Training Loss:0.0938329455209896 epoch: 87
+Val Loss: 0.5338456922112719 epoch: 87
+Val F1 best: 0.35757598 epoch: 87
+Val F1 fixed: 0.32831127355698103 epoch: 87
+Training Loss:0.09407718917319122 epoch: 88
+Val Loss: 0.5297665146481768 epoch: 88
+Val F1 best: 0.36692482 epoch: 88
+Val F1 fixed: 0.3345748646833959 epoch: 88
+Training Loss:0.09364416052909712 epoch: 89
+Val Loss: 0.5192012455592161 epoch: 89
+Val F1 best: 0.370992 epoch: 89
+Val F1 fixed: 0.34246408468426853 epoch: 89
+Training Loss:0.09386863057000133 epoch: 90
+Val Loss: 0.5269635412678645 epoch: 90
+Val F1 best: 0.37008774 epoch: 90
+Val F1 fixed: 0.3416100133580871 epoch: 90
+Training Loss:0.09401139473560481 epoch: 91
+Val Loss: 0.5210067537417146 epoch: 91
+Val F1 best: 0.37065807 epoch: 91
+Val F1 fixed: 0.34729749541629434 epoch: 91
+Training Loss:0.09307950191092319 epoch: 92
+Val Loss: 0.5309332340175548 epoch: 92
+Val F1 best: 0.3710666 epoch: 92
+Val F1 fixed: 0.3354469351539433 epoch: 92
+Training Loss:0.09346173756111127 epoch: 93
+Val Loss: 0.5261250617444155 epoch: 93
+Val F1 best: 0.36794952 epoch: 93
+Val F1 fixed: 0.3426293985177634 epoch: 93
+Training Loss:0.09281475924259912 epoch: 94
+Val Loss: 0.5175955938604219 epoch: 94
+Val F1 best: 0.37103513 epoch: 94
+Val F1 fixed: 0.3444138466180661 epoch: 94
+Training Loss:0.09314749672865638 epoch: 95
+Val Loss: 0.5179648725949064 epoch: 95
+Val F1 best: 0.36501193 epoch: 95
+Val F1 fixed: 0.34577879203473155 epoch: 95
+Training Loss:0.09276788095298868 epoch: 96
+Val Loss: 0.5240680109923951 epoch: 96
+Val F1 best: 0.3719766 epoch: 96
+Val F1 fixed: 0.34664614843355307 epoch: 96
+Training Loss:0.09191514145367993 epoch: 97
+Val Loss: 0.5204138149662564 epoch: 97
+Val F1 best: 0.3738298 epoch: 97
+Val F1 fixed: 0.34653172512440855 epoch: 97
+Training Loss:0.09222585437980552 epoch: 98
+Val Loss: 0.5222169074848736 epoch: 98
+Val F1 best: 0.36890715 epoch: 98
+Val F1 fixed: 0.3444245303516646 epoch: 98
+Training Loss:0.0922960747914532 epoch: 99
+Val Loss: 0.5180835210771316 epoch: 99
+Val F1 best: 0.37389565 epoch: 99
+Val F1 fixed: 0.34670918782890364 epoch: 99
