@@ -82,6 +82,7 @@ class ModelBase(BaseModel):
     f1_score: float
     model_type: str
     version: str
+    description: str
 
 class HistoryBase(BaseModel):
     id: int = None

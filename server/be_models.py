@@ -33,6 +33,7 @@ class Model(Base):
     recall = Column(Float)
     f1_score = Column(Float)
     version = Column(String(15))
+    description = Column(String(500))
     model_type = Column(String(50))
     creat_at = Column(DateTime, default=datetime.utcnow)
 

@@ -52,6 +52,7 @@ function ModelManagement() {
         recall: 0,
         f1_score: 0,
         path: "",
+        description: "",
         version: "",
         model_type: "",
     })
@@ -94,6 +95,7 @@ function ModelManagement() {
             recall: 0,
             f1_score: 0,
             path: "",
+            description: "",
             version: "",
             model_type: ""
         })
@@ -184,6 +186,7 @@ function ModelManagement() {
                                 <StyledTableCell align="right" sx={{ width: '100px' }}>Version</StyledTableCell>
                                 <StyledTableCell align="right" sx={{ width: '100px' }}>Model type</StyledTableCell>
                                 <StyledTableCell align="right" sx={{ width: '500px' }}>Path</StyledTableCell>
+                                <StyledTableCell align="right" sx={{ width: '350px' }}>Description</StyledTableCell>
                                 <StyledTableCell align="right" sx={{ textAlign: 'center' }}>Action</StyledTableCell>
                             </TableRow>
                         </TableHead>
@@ -201,6 +204,7 @@ function ModelManagement() {
                                     <StyledTableCell align="right">{model.version}</StyledTableCell>
                                     <StyledTableCell align="right">{model.model_type}</StyledTableCell>
                                     <StyledTableCell align="right">{model.path}</StyledTableCell>
+                                    <StyledTableCell align="right">{model.description}</StyledTableCell>
                                     <StyledTableCell align="right">
                                         <div className={classes.btnActionGroup}>
                                             <button className={classes.btnAction} style={{ backgroundColor: "#d79f59" }} onClick={() => handleOpenUpdateModal(model)}>UPDATE</button>
@@ -313,6 +317,17 @@ function ModelManagement() {
                         <FormControlLabel value={"LOCALIZATION"} control={<Radio />} label="LOCALIZATION" />
                     </RadioGroup>
 
+                    <span className="modalText">Description</span>
+                    <input
+                        type="text"
+                        placeholder="Type your model's description"
+                        className={classes.inputField}
+                        value={modelInfo.description}
+                        onChange={e =>
+                            setModelInfo((state) => ({ ...state, description: e.target.value }))
+                        }
+                    />
+                    
                     <span className="modalText">Path</span>
                     <input
                         type="text"

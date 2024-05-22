@@ -42,7 +42,34 @@ if device != 'cpu':
 
 def convertHeatmapToEdge(heatmap_path=""):
     # Read the heat map image
-    heat_map = cv2.imread(heatmap_path, cv2.IMREAD_GRAYSCALE)
+    image = cv2.imread(heatmap_path)  
+
+    # Convert the image to the HSV color space
+    hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    # Define the range of red colors in HSV
+    lower_red1 = np.array([0, 70, 50])
+    upper_red1 = np.array([10, 255, 255])
+    lower_red2 = np.array([170, 70, 50])
+    upper_red2 = np.array([180, 255, 255])
+
+    # Create masks for red color
+    mask1 = cv2.inRange(hsv_image, lower_red1, upper_red1)
+    mask2 = cv2.inRange(hsv_image, lower_red2, upper_red2)
+    red_mask = cv2.bitwise_or(mask1, mask2)
+
+    # Create an output image with 4 channels (RGBA)
+    b, g, r = cv2.split(image)
+    alpha = red_mask
+
+    # Merge the BGR channels with the alpha channel
+    red_regions_with_alpha = cv2.merge([b, g, r, alpha])
+
+    # Save or display the result
+    cv2.imwrite('red_regions_transparent.png', red_regions_with_alpha)  # Save the image with transparent background
+
+
+    heat_map = cv2.imread('red_regions_transparent.png', cv2.IMREAD_GRAYSCALE)
 
     # Apply thresholding to convert to binary image
     _, binary_image = cv2.threshold(heat_map, 127, 255, cv2.THRESH_BINARY)
