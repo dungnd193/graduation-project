@@ -11,6 +11,8 @@ import jwt
 from datetime import datetime, timedelta
 import os
 from sqlalchemy.orm import joinedload
+import cv2
+import numpy as np
 
 from keras.models import load_model
 from PIL import Image, ImageChops, ImageEnhance
@@ -138,6 +140,27 @@ def convert_to_ela_image(path, quality):
 def prepare_image(image_path):
     return np.array(convert_to_ela_image(image_path, 98).resize([128,128])).flatten() / 255.0
 
+def createBorderMask(image_path, mask_path):
+    image = cv2.imread(image_path)
+
+    height, width, _ = image.shape
+
+    # Create a transparent RGBA image
+    rgba_image = np.zeros((height, width, 4), dtype=np.uint8)
+
+    # Set the alpha channel to fully transparent
+    rgba_image[:, :, 3] = 0
+
+    # Define the border color (red) and thickness
+    border_color = (0, 0, 255, 255)  # Red color with full opacity
+    border_thickness = 2
+
+    # Draw the red border
+    cv2.rectangle(rgba_image, (0, 0), (width-1, height-1), border_color, border_thickness)
+
+    cv2.imwrite(mask_path, rgba_image)
+    print(f"Localization image saved in {mask_path}")
+
 def forgery_image_test(image_path, model_loaded):
     """
     Custom Model
@@ -217,15 +240,17 @@ async def forgery_image_predict(upload_file: UploadFile, user_id, classification
             buffer.write(await upload_file.read())
         
         label, acc = forgery_image_test(image_path=file_path, model_loaded=model_loaded)
-        
-        mask_file_name = os.path.splitext(os.path.basename(file_path))[0]+"_mask.png"
-        mask_path = os.path.join(masks_directory, mask_file_name)
-        call(["python", 
-            r"D:\dungnd\GraduationProject\MMFusion-IML\inference.py", 
-            "--exp", r'D:\dungnd\GraduationProject\MMFusion-IML\experiments\ec_example_phase2.yaml',
-            "--ckpt", loc_model_path,
-            "--path", file_path])
-        
+        if label == "Fake":
+            mask_file_name = os.path.splitext(os.path.basename(file_path))[0]+"_mask.png"
+            mask_path = os.path.join(masks_directory, mask_file_name)
+            call(["python", 
+                r"D:\dungnd\GraduationProject\MMFusion-IML\inference.py", 
+                "--exp", r'D:\dungnd\GraduationProject\MMFusion-IML\experiments\ec_example_phase2.yaml',
+                "--ckpt", loc_model_path,
+                "--path", file_path])
+        else:
+            mask_file_name = ""
+            mask_path = ""
         history = be_models.History(
             user_id=user_id,
             classification_model_id=classification_model_id,
@@ -266,14 +291,13 @@ async def ai_generated_predict(upload_file: UploadFile, user_id, classification_
             buffer.write(await upload_file.read())
         
         label, acc = test_face_image(image_path=file_path, model_loaded=model_loaded)
-        
-        mask_file_name = os.path.splitext(os.path.basename(file_path))[0]+"_mask.png"
-        mask_path = os.path.join(masks_directory, mask_file_name)
-        call(["python", 
-            r"D:\dungnd\GraduationProject\MMFusion-IML\inference.py", 
-            "--exp", r'D:\dungnd\GraduationProject\MMFusion-IML\experiments\ec_example_phase2.yaml',
-            "--ckpt", loc_model_path,
-            "--path", file_path])
+        if label == "Fake":
+            mask_file_name = os.path.splitext(os.path.basename(file_path))[0]+"_mask.png"
+            mask_path = os.path.join(masks_directory, mask_file_name)
+            createBorderMask(file_path, mask_path)
+        else:
+            mask_file_name = ""
+            mask_path = ""
         
         history = be_models.History(
             user_id=user_id,
