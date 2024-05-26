@@ -167,7 +167,7 @@ def main():
 
             pbar.set_postfix({"last_loss": loss.detach().item(), "epoch_loss": avg_loss.average()})
         writer.add_scalar('Training Loss', avg_loss.average(), epoch)
-        with open(r'E:\dungnd\MMFusion-IML\training_process.txt', 'a') as file:
+        with open(r'D:\dungnd\GraduationProject\MMFusion-IML\USB_5_6_20_22_25_training_process_phase1.txt', 'a') as file:
             file.write('Training Loss:' + str(avg_loss.average()) + ' epoch: ' + str(epoch) + '\n')
         torch.cuda.empty_cache()
         gc.collect()
@@ -206,7 +206,7 @@ def main():
         writer.add_scalar('Val Loss', val_loss_avg.average(), epoch)
         writer.add_scalar('Val F1 best', np.nanmean(f1), epoch)
         writer.add_scalar('Val F1 fixed', np.nanmean(f1th), epoch)
-        with open(r'E:\dungnd\MMFusion-IML\training_process.txt', 'a') as file:
+        with open(r'D:\dungnd\GraduationProject\MMFusion-IML\USB_5_6_20_22_25_training_process_phase1.txt', 'a') as file:
             file.write('Val Loss: ' + str(val_loss_avg.average()) + ' epoch: ' + str(epoch) + '\n')
             file.write('Val F1 best: ' + str(np.nanmean(f1)) + ' epoch: ' + str(epoch) + '\n')
             file.write('Val F1 fixed: ' + str(np.nanmean(f1th)) + ' epoch: ' + str(epoch) + '\n')

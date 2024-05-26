@@ -183,7 +183,7 @@ def main():
         writer.add_scalar('Val Loss', val_loss_avg.average(), epoch)
         writer.add_scalar('Val AUC', auc, epoch)
         writer.add_scalar('Val bACC', baCC, epoch)
-        with open(r'E:\dungnd\MMFusion-IML\training_process.txt', 'a') as file:
+        with open(r'D:\dungnd\GraduationProject\MMFusion-IML\USB_5_6_20_22_25_training_process_phase2.txt', 'a') as file:
             file.write('Val Loss: ' + str(val_loss_avg.average()) + ' epoch: '+ str(epoch) + '\n')
             file.write('Val AUC: ' + str(auc) + ' epoch: '+ str(epoch) + '\n')
             file.write('Val bACC: ' + str(baCC) + ' epoch: '+ str(epoch) + '\n')

@@ -1,0 +1,15 @@
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8711_splicing.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8711_splicing_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8705_copy_move_2.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8705_copy_move_2_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8718_copy_move.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8718_copy_move_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8713_copy_move.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8713_copy_move_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8719_splicing.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8719_splicing_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8724_splicing.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8724_splicing_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8703_splicing.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8703_splicing_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8727_copy_move.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8727_copy_move_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8705_copy_move.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8705_copy_move_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8715_copy_move_2.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8715_copy_move_2_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8726_splicing_2.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8726_splicing_2_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8724_copy_move_2.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8724_copy_move_2_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8708_splicing_2.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8708_splicing_2_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8718_copy_move_2.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8718_copy_move_2_mask.png 1
+D:\dungnd\data\DATA_USB\25\Fake\IMGP8703_copy_move_2.png D:\dungnd\data\DATA_USB\25\Mask\IMGP8703_copy_move_2_mask.png 1

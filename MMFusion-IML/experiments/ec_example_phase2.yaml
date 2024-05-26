@@ -22,6 +22,12 @@ DATASET:
     # - './data/USB-5_splits/train/USB-5-auth.txt'
     # - './data/USB-6_splits/train/USB-6-manip.txt'
     # - './data/USB-6_splits/train/USB-6-auth.txt'
+    # - './data/USB-20_splits/train/USB-20-manip.txt'
+    # - './data/USB-20_splits/train/USB-20-auth.txt'
+    # - './data/USB-22_splits/train/USB-22-manip.txt'
+    # - './data/USB-22_splits/train/USB-22-auth.txt'
+    # - './data/USB-25_splits/train/USB-25-manip.txt'
+    # - './data/USB-25_splits/train/USB-25-auth.txt'
   VAL:
     - './data/Casiav2_splits/val/CASIA_v2_manip.txt'
     - './data/Casiav2_splits/val/CASIA_v2_auth.txt'
@@ -29,12 +35,17 @@ DATASET:
     # - './data/USB-5_splits/val/USB-5-auth.txt'
     # - './data/USB-6_splits/val/USB-6-manip.txt'
     # - './data/USB-6_splits/val/USB-6-auth.txt'
-
+    # - './data/USB-20_splits/val/USB-20-manip.txt'
+    # - './data/USB-20_splits/val/USB-20-auth.txt'
+    # - './data/USB-22_splits/val/USB-22-manip.txt'
+    # - './data/USB-22_splits/val/USB-22-auth.txt'
+    # - './data/USB-25_splits/val/USB-25-manip.txt'
+    # - './data/USB-25_splits/val/USB-25-auth.txt'
   IMG_SIZE: 256
   CLASS_WEIGHTS: [0.5, 2.5]
 
 MODEL:
-  NAME: model_18_05_2024_phase2
+  NAME: model_23_05_2024_phase2
   MODALS: ['img', 'noiseprint', 'bayar', 'srm']
   PRETRAINED: 'D:\dungnd\GraduationProject\MMFusion-IML\pretrained\segformer\mit_b2.pth'
   NUM_CLASSES: 2
