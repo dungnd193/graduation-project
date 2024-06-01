@@ -49,6 +49,7 @@ class History(Base):
     output_img_path = Column(String(100))
     label = Column(String(20))
     classification_accuracy = Column(Float)
+    localization_accuracy = Column(Float)
     creat_at = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="history")

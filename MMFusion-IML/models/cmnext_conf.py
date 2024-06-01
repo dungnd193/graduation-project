@@ -29,6 +29,7 @@ class CMNeXtWithConf(BaseModel):
                             nn.ReLU(),
                             nn.Dropout(p=0.5),
                             nn.Linear(in_features=128, out_features=1),
+                            nn.Sigmoid()
                             )
         self.apply(self._init_weights)
         self.train_phase = cfg.TRAIN_PHASE

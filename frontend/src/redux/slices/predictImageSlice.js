@@ -31,7 +31,8 @@ export const predictImageSlice = createSlice({
             file_path: '',
             mask_path: '',
             label: '',
-            accuracy: 0
+            classification_accuracy: 0,
+            localization_accuracy: 0,
         }
     },
     reducers: {

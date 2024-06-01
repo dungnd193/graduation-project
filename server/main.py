@@ -94,7 +94,8 @@ class HistoryBase(BaseModel):
     input_img_path: str
     output_img_path: str
     label: str
-    accuracy: float
+    classification_accuracy: float
+    localization_accuracy: float
 
 def test_face_image(image_path, model_loaded):
         """
@@ -248,9 +249,16 @@ async def forgery_image_predict(upload_file: UploadFile, user_id, classification
                 "--exp", r'D:\dungnd\GraduationProject\MMFusion-IML\experiments\ec_example_phase2.yaml',
                 "--ckpt", loc_model_path,
                 "--path", file_path])
+            try:
+                with open("accuracy.txt", 'r') as file:
+                    localization_accuracy = float(file.read().strip())  # Read the content and remove any leading/trailing whitespace
+                os.remove("accuracy.txt")
+            except FileNotFoundError:
+                print("File not found. Please make sure the file path is correct.")
         else:
             mask_file_name = ""
             mask_path = ""
+            localization_accuracy = 0.0
         history = be_models.History(
             user_id=user_id,
             classification_model_id=classification_model_id,
@@ -258,15 +266,16 @@ async def forgery_image_predict(upload_file: UploadFile, user_id, classification
             input_img_path=unique_filename,
             output_img_path=mask_file_name,
             label=label,
-            classification_accuracy="%.5f" % np.abs(acc*100)
+            classification_accuracy="%.5f" % np.abs(acc*100),
+            localization_accuracy="%.5f" % np.abs(localization_accuracy*100)
         )
         db.add(history)
         db.commit()
-
         return {
             "message": "Predicted successfully", 
             "label": label,
-            "accuracy": "%.5f" % np.abs(acc*100),
+            "classification_accuracy": "%.5f" % np.abs(acc*100),
+            "localization_accuracy": "%.5f" % np.abs(localization_accuracy*100),
             "file_path": file_path, 
             "mask_path": mask_path
         }
@@ -294,10 +303,12 @@ async def ai_generated_predict(upload_file: UploadFile, user_id, classification_
         if label == "Fake":
             mask_file_name = os.path.splitext(os.path.basename(file_path))[0]+"_mask.png"
             mask_path = os.path.join(masks_directory, mask_file_name)
+            localization_accuracy = 1.0
             createBorderMask(file_path, mask_path)
         else:
             mask_file_name = ""
             mask_path = ""
+            localization_accuracy = 0.0
         
         history = be_models.History(
             user_id=user_id,
@@ -306,7 +317,8 @@ async def ai_generated_predict(upload_file: UploadFile, user_id, classification_
             input_img_path=unique_filename,
             output_img_path=mask_file_name,
             label=label,
-            classification_accuracy="%.5f" % np.abs(acc*100)
+            classification_accuracy="%.5f" % np.abs(acc*100),
+            localization_accuracy="%.5f" % np.abs(localization_accuracy*100)
         )
         db.add(history)
         db.commit()
@@ -579,6 +591,7 @@ async def get_all_history(db: db_dependency):
             "output_img_path": h.output_img_path,
             "label": h.label,
             "classification_accuracy": h.classification_accuracy,
+            "localization_accuracy": h.localization_accuracy,
             "creat_at": h.creat_at
         })
     return result
@@ -598,6 +611,7 @@ async def get_hist_by_user_id(user_id:int , db: db_dependency):
             "output_img_path": history.output_img_path,
             "label": history.label,
             "classification_accuracy": history.classification_accuracy,
+            "localization_accuracy": history.localization_accuracy,
             "creat_at": history.creat_at
         })
     return result

@@ -41,54 +41,90 @@ if device != 'cpu':
     cudnn.enabled = config.CUDNN.ENABLED
 
 def convertHeatmapToEdge(heatmap_path=""):
-    # Read the heat map image
-    image = cv2.imread(heatmap_path)  
+    # Step 1: Read the image
+    image = cv2.imread(heatmap_path, cv2.IMREAD_UNCHANGED)
 
-    # Convert the image to the HSV color space
+    # Step 2: Convert the image to the HSV color space
     hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-    # Define the range of red colors in HSV
+    # Step 3: Create a mask for the red regions using the updated HSV ranges
+    lower_red1 = np.array([0, 70, 50])
+    upper_red1 = np.array([10, 255, 255])
+    mask1 = cv2.inRange(hsv_image, lower_red1, upper_red1)
+
+    lower_red2 = np.array([170, 70, 50])
+    upper_red2 = np.array([180, 255, 255])
+    mask2 = cv2.inRange(hsv_image, lower_red2, upper_red2)
+
+    # Combine both masks
+    red_mask = cv2.bitwise_or(mask1, mask2)
+
+    # Step 4: Remove noise and fill holes using morphological operations
+    kernel = np.ones((5, 5), np.uint8)
+    red_mask_cleaned = cv2.morphologyEx(red_mask, cv2.MORPH_CLOSE, kernel)  # Fill small holes
+    red_mask_cleaned = cv2.morphologyEx(red_mask_cleaned, cv2.MORPH_OPEN, kernel)  # Remove small noise
+    red_mask_cleaned = cv2.dilate(red_mask_cleaned, kernel, iterations=2)  # Further fill gaps
+
+    # Step 5: Remove small regions (<= 10% of image area)
+    # Calculate the total area of the image
+    total_area = image.shape[0] * image.shape[1]
+    min_area_threshold = 0.005 * total_area
+
+    # Find connected components in the mask
+    num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(red_mask_cleaned, connectivity=8)
+
+    # Create a mask for large components
+    large_components_mask = np.zeros_like(red_mask_cleaned)
+
+    for i in range(1, num_labels):  # Start from 1 to skip the background
+        if stats[i, cv2.CC_STAT_AREA] > min_area_threshold:
+            large_components_mask[labels == i] = 255
+
+    # Step 6: Apply the large components mask to the original image
+    result = cv2.bitwise_and(image, image, mask=large_components_mask)
+
+    # Step 7: Set non-red regions to transparent
+    # Check the number of channels in the input image
+    if image.shape[2] == 3:  # If the image has 3 channels (BGR)
+        b, g, r = cv2.split(result)
+        alpha = large_components_mask
+        # Merge the BGR channels with the alpha channel
+        rgba = cv2.merge([b, g, r, alpha])
+    elif image.shape[2] == 4:  # If the image has 4 channels (BGRA)
+        b, g, r, _ = cv2.split(result)
+        alpha = large_components_mask
+        # Merge the BGRA channels with the new alpha channel
+        rgba = cv2.merge([b, g, r, alpha])
+
+    # Save the result image
+    cv2.imwrite("temp.png", rgba)
+
+    image = cv2.imread("temp.png", cv2.IMREAD_UNCHANGED)
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    # Định nghĩa phạm vi màu đỏ trong không gian màu HSV
     lower_red1 = np.array([0, 70, 50])
     upper_red1 = np.array([10, 255, 255])
     lower_red2 = np.array([170, 70, 50])
     upper_red2 = np.array([180, 255, 255])
 
-    # Create masks for red color
-    mask1 = cv2.inRange(hsv_image, lower_red1, upper_red1)
-    mask2 = cv2.inRange(hsv_image, lower_red2, upper_red2)
-    red_mask = cv2.bitwise_or(mask1, mask2)
+    # Tạo mặt nạ cho màu đỏ
+    mask1 = cv2.inRange(hsv, lower_red1, upper_red1)
+    mask2 = cv2.inRange(hsv, lower_red2, upper_red2)
+    mask = cv2.bitwise_or(mask1, mask2)
 
-    # Create an output image with 4 channels (RGBA)
-    b, g, r = cv2.split(image)
-    alpha = red_mask
+    # Tìm các đường viền
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    # Merge the BGR channels with the alpha channel
-    red_regions_with_alpha = cv2.merge([b, g, r, alpha])
+    # Tạo một ảnh mới với nền trong suốt
+    transparent_background = np.zeros((image.shape[0], image.shape[1], 4), dtype=np.uint8)
 
-    # Save or display the result
-    cv2.imwrite('red_regions_transparent.png', red_regions_with_alpha)  # Save the image with transparent background
+    # Vẽ tất cả các đường viền trên ảnh với nền trong suốt
+    cv2.drawContours(transparent_background, contours, -1, (0, 0, 255, 255), thickness=2)
 
-
-    heat_map = cv2.imread('red_regions_transparent.png', cv2.IMREAD_GRAYSCALE)
-
-    # Apply thresholding to convert to binary image
-    _, binary_image = cv2.threshold(heat_map, 127, 255, cv2.THRESH_BINARY)
-
-    # Find contours
-    contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-    # Create a transparent blank canvas
-    canvas = np.zeros((heat_map.shape[0], heat_map.shape[1], 4), dtype=np.uint8)
-    canvas[:, :, 3] = 0  # Set alpha channel to 0 (fully transparent)
-
-    # Choose a color for the contour (BGR format)
-    contour_color = (0, 0, 255)  # Red color
-
-    # Draw contours on the canvas with the specified color
-    cv2.drawContours(canvas, contours, -1, contour_color + (255,), 2)  # Contour color with full opacity
-
-
-    cv2.imwrite(heatmap_path, canvas)
+    os.remove("temp.png")
+    # Lưu ảnh kết quả
+    cv2.imwrite(heatmap_path, transparent_background)
 
 def main():
     modal_extractor = ModalitiesExtractor(config.MODEL.MODALS[1:], config.MODEL.NP_WEIGHTS)
@@ -139,6 +175,8 @@ def main():
             gt = masks.squeeze().cpu().numpy()
             map = torch.nn.functional.softmax(anomaly, dim=1)[:, 1, :, :].squeeze().cpu().numpy()
             det = detection.item()
+            with open(r'..\.\server\accuracy.txt', 'w') as file:
+                file.write(str(det))
 
             plt.imsave(target, map, cmap='RdBu_r', vmin=0, vmax=1)
             convertHeatmapToEdge(target)

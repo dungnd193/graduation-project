@@ -182,7 +182,8 @@ function PredictImage() {
                         {imageUrl && <h3>Image type: {imgInfo.fileType}</h3>}
                         {imageUrl && <h3>Image size: {(imgInfo.fileSize / 1024).toFixed(2) + ' KB'}</h3>}
                         {result.label && <h3>Label: {result.label}</h3>}
-                        {result.accuracy ? <h3>Classification accuracy: {(result.accuracy / 1).toFixed(3)}%</h3> : <></>}
+                        {result.classification_accuracy ? <h3>Classification accuracy: {(result.classification_accuracy / 1).toFixed(3)}%</h3> : <></>}
+                        {result.localization_accuracy && result.localization_accuracy > 0.0 ? <h3>Localization accuracy: {(result.localization_accuracy / 1).toFixed(3)}%</h3> : <></>}
                     </div>
                     <div className={classes.boxRight}>
                         {loading && <div className={classes.overlay}>

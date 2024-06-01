@@ -169,6 +169,7 @@ function ViewHistoryPrediction() {
                                 <StyledTableCell align="right" sx={{ width: '100px' }}>Mask</StyledTableCell>
                                 <StyledTableCell align="right" sx={{ width: '100px' }}>Label</StyledTableCell>
                                 <StyledTableCell align="right" sx={{ width: '100px' }}>Classification accuracy</StyledTableCell>
+                                <StyledTableCell align="right" sx={{ width: '100px' }}>Localization accuracy</StyledTableCell>
                                 <StyledTableCell align="right" sx={{ width: '100px' }}>Result</StyledTableCell>
                                 <StyledTableCell align="right" sx={{ width: '150px' }}>Date</StyledTableCell>
                             </TableRow>
@@ -186,6 +187,7 @@ function ViewHistoryPrediction() {
                                     <StyledTableCell align="right">{hist.output_img_path}</StyledTableCell>
                                     <StyledTableCell align="right">{hist.label}</StyledTableCell>
                                     <StyledTableCell align="right">{(hist.classification_accuracy)}%</StyledTableCell>
+                                    <StyledTableCell align="right">{(hist.localization_accuracy || 0)}%</StyledTableCell>
                                     <StyledTableCell
                                         align="right"
                                         onClick={() => getHistById(hist.id)}
@@ -231,7 +233,7 @@ function ViewHistoryPrediction() {
                             }}
                             className={classes.resultInput}
                         />
-                        <img
+                        {view_hist.output_img_path && <img
                             ref={maskRef}
                             src={"http:\/\/localhost:8000\/images\/masks\/" + handlePath(view_hist.output_img_path)}
                             alt="mask"
@@ -241,7 +243,7 @@ function ViewHistoryPrediction() {
                                 transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`
                             }}
                             className={classes.resultMask}
-                        />
+                        />}
                     </div>
 
                     {false && <Slider defaultValue={opacity * 100} onChange={e => setOpacity(e.target.value / 100)} />}
