@@ -1,3 +1,5 @@
+import bcrypt
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi import FastAPI, File, HTTPException, Depends, UploadFile, status, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
@@ -24,6 +26,7 @@ import numpy as np
 SECRET_KEY = "your-secret-key"  # Change this to your secret key
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60*24 # Adjust the expiration time as needed
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 app = FastAPI()
 app.add_middleware(
@@ -333,6 +336,11 @@ async def ai_generated_predict(upload_file: UploadFile, user_id, classification_
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+def hash_password(password: str) -> str:
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
 
 db_dependency = Annotated[Session, Depends(get_db)]
 
@@ -340,7 +348,7 @@ db_dependency = Annotated[Session, Depends(get_db)]
 @app.post("/login")
 async def login(credentials: LogInBase, db: db_dependency):
     user = db.query(be_models.User).filter(be_models.User.username == credentials.username).first()
-    if user is None or user.password != credentials.password:
+    if user is None or not verify_password(credentials.password, user.password):
         raise HTTPException(status_code=401, detail="Invalid username or password")
     
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -364,6 +372,7 @@ async def login(credentials: LogInBase, db: db_dependency):
 
 @app.post("/users/", status_code=status.HTTP_201_CREATED)
 async def create_user(user: UserBase, db: db_dependency):
+    user.password = hash_password(user.password)
     db_user = be_models.User(**user.dict())
     db.add(db_user)
     db.commit()
@@ -469,7 +478,7 @@ async def update_user(updated_user: UserBase, db: db_dependency):
         raise HTTPException(status_code=404, detail="User not found")
 
     existing_user.username = updated_user.username
-    existing_user.password = updated_user.password
+    existing_user.password = hash_password(updated_user.password)
     existing_user.email = updated_user.email
     existing_user.phone_number = updated_user.phone_number
     existing_user.role_id = updated_user.role_id

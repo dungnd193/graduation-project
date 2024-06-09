@@ -8,7 +8,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String(50), unique=True)
-    password = Column(String(50))
+    password = Column(String(500))
     email = Column(String(100))
     phone_number = Column(String(20))
     role_id = Column(Integer, ForeignKey('roles.id'))
