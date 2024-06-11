@@ -68,7 +68,7 @@ def convertHeatmapToEdge(heatmap_path=""):
     # Step 5: Remove small regions (<= 10% of image area)
     # Calculate the total area of the image
     total_area = image.shape[0] * image.shape[1]
-    min_area_threshold = 0.005 * total_area
+    min_area_threshold = 0.000 * total_area # Threshold for removing small noise, 0 = no removal
 
     # Find connected components in the mask
     num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(red_mask_cleaned, connectivity=8)
