@@ -47,6 +47,7 @@ class UserBase(BaseModel):
     email: str
     phone_number: str
     role_id: int
+    group_id: int
     status: str
 
 class UserWithoutPasswordBase(BaseModel):
@@ -55,6 +56,7 @@ class UserWithoutPasswordBase(BaseModel):
     email: str
     phone_number: str
     role_id: int
+    group_id: int
     status: str
 
 class UserWithoutPasswordList(BaseModel):
@@ -71,7 +73,12 @@ class UpdateUserStatus(BaseModel):
     status: str
 
 class RoleBase(BaseModel):
+    id: int = None
     role: str
+
+class GroupBase(BaseModel):
+    id: int = None
+    group: str
 
 class LogInBase(BaseModel):
     username: str
@@ -365,6 +372,7 @@ async def login(credentials: LogInBase, db: db_dependency):
         email=user.email,
         phone_number=user.phone_number,
         role_id=user.role_id,
+        group_id=user.group_id,
         status=user.status
     )
 
@@ -388,6 +396,7 @@ async def get_all_users(db: db_dependency) -> UserList:
             email=user.email,
             phone_number=user.phone_number,
             role_id=user.role_id,
+            group_id=user.group_id,
             status=user.status,
             password=user.password
         ) 
@@ -428,6 +437,7 @@ async def search_users(db: Session = Depends(get_db), search_string: str = None)
             email=user.email,
             phone_number=user.phone_number,
             role_id=user.role_id,
+            group_id=user.group_id,
             status=user.status,
             password=user.password
         ) 
@@ -457,6 +467,7 @@ async def get_user_by_id(user_id:int , db: db_dependency):
         email=user.email,
         phone_number=user.phone_number,
         role_id=user.role_id,
+        group_id=user.group_id,
         status=user.status
     )
 
@@ -473,15 +484,31 @@ async def update_user_status(user_id: int, status_update: UpdateUserStatus, db: 
 
 @app.put("/users/{user_id}", status_code=status.HTTP_200_OK)
 async def update_user(updated_user: UserBase, db: db_dependency):
+    id, username, password, email, phone_number, role_id, group_id, status = (
+        updated_user.id,
+        updated_user.username,
+        updated_user.password,
+        updated_user.email,
+        updated_user.phone_number,
+        updated_user.role_id,
+        updated_user.group_id,
+        updated_user.status
+    )
+
+    # Check if any field is an empty string
+    if any(field == "" for field in [id, username, password, email, phone_number, role_id, group_id, status]):
+        raise HTTPException(status_code=400, detail="Fields cannot be empty")
+    
     existing_user = db.query(be_models.User).filter(be_models.User.id == updated_user.id).first()
     if existing_user is None:
         raise HTTPException(status_code=404, detail="User not found")
-
+ 
     existing_user.username = updated_user.username
     existing_user.password = hash_password(updated_user.password)
     existing_user.email = updated_user.email
     existing_user.phone_number = updated_user.phone_number
     existing_user.role_id = updated_user.role_id
+    existing_user.group_id = updated_user.group_id,
     existing_user.status = updated_user.status
 
     db.commit()
@@ -492,6 +519,7 @@ async def update_user(updated_user: UserBase, db: db_dependency):
         email=updated_user.email,
         phone_number=updated_user.phone_number,
         role_id=updated_user.role_id,
+        group_id=updated_user.group_id,
         status=updated_user.status
     )
 
@@ -513,12 +541,59 @@ async def create_role(role: RoleBase, db: db_dependency):
     db.add(db_role)
     db.commit()
 
+@app.get("/roles", status_code=status.HTTP_200_OK)
+async def get_all_roles(db: db_dependency) -> list[RoleBase]:
+    roles = db.query(be_models.Role)
+    return roles
+
 @app.get("/roles/{role_id}", status_code=status.HTTP_200_OK)
 async def get_role(role_id:int , db: db_dependency):
     role = db.query(be_models.Role).filter(be_models.Role.id == role_id).first()
     if role is None:
         raise HTTPException(status_code=404, detail="Role not found!")
     return role
+
+@app.delete("/roles/{role_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_role(role_id: int, db: db_dependency):
+    existing_role = db.query(be_models.Role).filter(be_models.Role.id == role_id).first()
+        
+    if existing_role is None:
+        raise HTTPException(status_code=404, detail="Role not found")
+
+    db.delete(existing_role)
+    db.commit()
+
+    return {"message": "Role deleted successfully"}
+
+@app.post("/groups/", status_code=status.HTTP_201_CREATED)
+async def create_group(group: GroupBase, db: db_dependency):
+    db_group = be_models.Group(**group.dict())
+    db.add(db_group)
+    db.commit()
+
+@app.get("/groups", status_code=status.HTTP_200_OK)
+async def get_all_groups(db: db_dependency) -> list[GroupBase]:
+    groups = db.query(be_models.Group)
+    return groups
+
+@app.get("/groups/{group_id}", status_code=status.HTTP_200_OK)
+async def get_group(group_id:int , db: db_dependency):
+    group = db.query(be_models.Group).filter(be_models.Group.id == group_id).first()
+    if group is None:
+        raise HTTPException(status_code=404, detail="Group not found!")
+    return group
+
+@app.delete("/groups/{group_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_group(group_id: int, db: db_dependency):
+    existing_group = db.query(be_models.Group).filter(be_models.Group.id == group_id).first()
+        
+    if existing_group is None:
+        raise HTTPException(status_code=404, detail="Group not found")
+
+    db.delete(existing_group)
+    db.commit()
+
+    return {"message": "Group deleted successfully"}
 
 @app.post("/models/", status_code=status.HTTP_201_CREATED)
 async def create_model(model: ModelBase, db: db_dependency):

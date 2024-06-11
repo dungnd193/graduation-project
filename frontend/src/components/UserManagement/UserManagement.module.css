@@ -133,3 +133,14 @@
     color: #447ec0;
     cursor: pointer;
 }
+
+.addMore {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.addMore > svg {
+    color: #1976d2;
+    cursor: pointer;
+}

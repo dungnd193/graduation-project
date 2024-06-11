@@ -12,6 +12,7 @@ class User(Base):
     email = Column(String(100))
     phone_number = Column(String(20))
     role_id = Column(Integer, ForeignKey('roles.id'))
+    group_id = Column(Integer, ForeignKey('groups.id'))
     status = Column(String(20))
 
     history = relationship("History", back_populates="user")
@@ -21,6 +22,12 @@ class Role(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     role = Column(String(10), unique=True)
+
+class Group(Base):
+    __tablename__ = 'groups'
+
+    id = Column(Integer, primary_key=True, index=True)
+    group = Column(String(100), unique=True)
 
 class Model(Base):
     __tablename__ = 'models'

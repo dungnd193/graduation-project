@@ -34,7 +34,8 @@ export const signUpThunk = createAsyncThunk(
                 email,
                 phone_number: phoneNumber,
                 status: "ACTIVE",
-                role_id: 2
+                role_id: 2,
+                group_id: 1
             });
             return response.data;
         } catch (err) {

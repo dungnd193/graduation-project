@@ -16,7 +16,11 @@ const API = {
     GET_ALL_HISTORY: '/history/',
     GET_HISTORY_BY_USER: '/history/user/',
     GET_HISTORY_BY_ID: '/history/id/',
-    PREDICT_IMAGE: '/predict/'
+    PREDICT_IMAGE: '/predict/',
+    GET_ALL_ROLES: '/roles',
+    CREATE_ROLE: '/roles/',
+    GET_ALL_GROUPS: '/groups',
+    CREATE_GROUP: '/groups/',
 }
 
 export default API
