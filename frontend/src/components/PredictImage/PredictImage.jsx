@@ -115,6 +115,14 @@ function PredictImage() {
     }, [])
 
     useEffect(() => {
+        const loc_models = all_models.filter(model => model.model_type == "LOCALIZATION") || []
+        const cls_models = all_models.filter(model => model.model_type !== "LOCALIZATION") || []
+
+        setClsModelId(cls_models[0]?.id)
+        setLocModelId(loc_models[0]?.id)
+    }, [all_models])
+
+    useEffect(() => {
         const mask = maskRef.current
         let isDragging = false
         let prevPosition = { x: 0, y: 0 }
@@ -168,7 +176,7 @@ function PredictImage() {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={clsModelId}
+                                value={clsModelId || ""}
                                 onChange={handleChangeClsModel}
                                 defaultValue={all_models[0]?.id}
                             >
@@ -186,7 +194,7 @@ function PredictImage() {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={locModelId}
+                                value={locModelId || ""}
                                 onChange={handleChangeLocalizationModel}
                                 defaultValue={all_models[0]?.id}
                             >
