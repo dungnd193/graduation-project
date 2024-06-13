@@ -26,7 +26,8 @@ export const createModel = createAsyncThunk(
         f1_score,
         path,
         version,
-        model_type
+        model_type,
+        description
     }) => {
         try {
             const response = await axiosInstance.post(API.CREATE_MODELS, {
@@ -37,7 +38,8 @@ export const createModel = createAsyncThunk(
                 f1_score,
                 path,
                 version,
-                model_type
+                model_type,
+                description
             });
             return response.data;
         } catch (err) {
