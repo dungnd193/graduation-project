@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Slider from '@mui/material/Slider';
 import { styled } from '@mui/material/styles';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { getAllModels } from '../../redux/slices/modelSlice';
@@ -45,8 +45,19 @@ function PredictImage() {
         fileType: ''
     })
 
-    const [clsModelId, setClsModelId] = React.useState('');
-    const [locModelId, setLocModelId] = React.useState('');
+    const [clsModelId, setClsModelId] = React.useState();
+    const [locModelId, setLocModelId] = React.useState();
+
+    const [scale, setScale] = useState(1);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const maskRef = useRef(null)
+
+    const handleZoomIn = () => {
+        setScale(scale => scale + 0.1)
+    }
+    const handleZoomOut = () => {
+        setScale(scale => scale - 0.1)
+    }
 
     const handleChangeClsModel = (event) => {
         setClsModelId(event.target.value);
@@ -56,6 +67,7 @@ function PredictImage() {
     };
 
     const handleFileChange = (event) => {
+        setPosition({ x: 0, y: 0 }); setScale(1)
         // Access the selected file from event.target.files
         const file = event.target.files[0];
         setSelectedFile(file);
@@ -101,6 +113,46 @@ function PredictImage() {
     useEffect(() => {
         dispatch(getAllModels())
     }, [])
+
+    useEffect(() => {
+        const mask = maskRef.current
+        let isDragging = false
+        let prevPosition = { x: 0, y: 0 }
+
+        const handleMousedown = (e) => {
+            e.preventDefault()
+            isDragging = true
+            prevPosition = { x: e.clientX, y: e.clientY }
+        }
+
+        const handleMouseMove = (e) => {
+            e.preventDefault()
+            if (!isDragging) return;
+            const deltaX = e.clientX - prevPosition.x
+            const deltaY = e.clientY - prevPosition.y
+            prevPosition = { x: e.clientX, y: e.clientY }
+            setPosition(position => ({
+                x: position.x + deltaX,
+                y: position.y + deltaY,
+            }))
+        }
+
+        const handleMouseUp = () => {
+            isDragging = false
+        }
+
+        mask?.addEventListener("mousedown", handleMousedown)
+        mask?.addEventListener("mousemove", handleMouseMove)
+        mask?.addEventListener("mouseup", handleMouseUp)
+
+
+        return () => {
+            mask?.removeEventListener("mousedown", handleMousedown)
+            mask?.removeEventListener("mousemove", handleMouseMove)
+            mask?.removeEventListener("mouseup", handleMouseUp)
+        }
+
+    }, [maskRef, scale])
 
     return (
         <ThemeProvider theme={predictImageTheme}>
@@ -185,7 +237,7 @@ function PredictImage() {
                         {result.classification_accuracy ? <h3>Classification accuracy: {(result.classification_accuracy / 1).toFixed(3)}%</h3> : <></>}
                         {result.localization_accuracy && result.localization_accuracy > 0.0 ? <h3>Localization accuracy: {(result.localization_accuracy / 1).toFixed(3)}%</h3> : <></>}
                     </div>
-                    <div className={classes.boxRight}>
+                    <div className={classes.boxRight} style={{ overflow: 'hidden'}}>
                         {loading && <div className={classes.overlay}>
                             <svg width={0} height={0}>
                                 <defs>
@@ -206,8 +258,23 @@ function PredictImage() {
                                 }}
                             />
                         </div>}
-                        {imageUrl && <img src={imageUrl} alt="Selected" style={{ width: '100%', height: '100%' }} />}
-                        {result.mask_path && <img src={handleMaskPath(result.mask_path)} alt="Mask Path" className={classes.maskPath} style={{ opacity: opacity }} />}
+                        {result.mask_path && <div className={classes.zoomInBtn} onClick={handleZoomIn}>+</div>}
+                        {result.mask_path && <div className={classes.zoomOutBtn} onClick={handleZoomOut}>-</div>}
+                        {imageUrl && <img src={imageUrl} alt="Selected" style={{
+                                transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+                                width: '100%', height: '100%'
+                            }}/>}
+                        {result.mask_path && <img
+                            ref={maskRef}
+                            src={handleMaskPath(result.mask_path)}
+                            alt="Mask Path"
+                            className={classes.maskPath}
+                            style={{
+                                cursor: 'move',
+                                opacity: opacity,
+                                transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`
+                            }}
+                        />}
                     </div>
                 </div>
                 {false && result.mask_path && <div className={classes.imgGroup}>
