@@ -195,7 +195,7 @@ function ViewHistoryPrediction() {
                                     >
                                         View result
                                     </StyledTableCell>
-                                    <StyledTableCell align="right">{moment(hist.creat_at).format('lll')}</StyledTableCell>
+                                    <StyledTableCell align="right">{moment(hist.creat_at).format('DD/MM/YYYY hh:mm:ss')}</StyledTableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -226,7 +226,7 @@ function ViewHistoryPrediction() {
                         <div className={classes.zoomInBtn} onClick={handleZoomIn}>+</div>
                         <div className={classes.zoomOutBtn} onClick={handleZoomOut}>-</div>
                         <img
-                            src={"http:\/\/localhost:8000\/images\/input_images\/" + handlePath(view_hist.input_img_path)}
+                            src={`${process.env.REACT_APP_BASE_API_URL}:8000\/images\/input_images\/` + handlePath(view_hist.input_img_path)}
                             alt="input"
                             style={{
                                 transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`
@@ -235,7 +235,7 @@ function ViewHistoryPrediction() {
                         />
                         {view_hist.output_img_path && <img
                             ref={maskRef}
-                            src={"http:\/\/localhost:8000\/images\/masks\/" + handlePath(view_hist.output_img_path)}
+                            src={`${process.env.REACT_APP_BASE_API_URL}:8000\/images\/masks\/` + handlePath(view_hist.output_img_path)}
                             alt="mask"
                             style={{
                                 cursor: 'move',
@@ -246,7 +246,7 @@ function ViewHistoryPrediction() {
                         />}
                     </div>
 
-                    {false && <Slider defaultValue={opacity * 100} onChange={e => setOpacity(e.target.value / 100)} />}
+                    {true && <Slider defaultValue={opacity * 100} onChange={e => setOpacity(e.target.value / 100)} />}
 
                     <Button variant="contained" sx={{ backgroundColor: '#57a1f8', width: '100%', marginTop: '20px' }} onClick={() => setOpen(false)}>Close</Button>
                 </div>

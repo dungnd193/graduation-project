@@ -1,8 +1,8 @@
 import torch
 import math
 from torch import nn
-from models.backbones import *
-from models.layers import trunc_normal_
+from MMFusion_IML.models.backbones import *
+from MMFusion_IML.models.layers import trunc_normal_
 from collections import OrderedDict
 
 

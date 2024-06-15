@@ -48,6 +48,9 @@ function Dashboard() {
 
     useEffect(() => {
         dispatch(getUserInformation()).then((res) => {
+            if (res?.type == "userInfor/get/rejected") {
+                // navigate("/sign-in")
+            }
             setUserInfo(state => ({
                 ...state,
                 id: res?.payload?.user?.id,

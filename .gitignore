@@ -1,6 +1,6 @@
 /checkpoint
 /server/input_images
 /server/masks
-/MMFusion-IML/data/Casiav2
-/MMFusion-IML/pretrained
-/MMFusion-IML/ckpt
+/server/MMFusion_IML/data/Casiav2
+/server/MMFusion_IML/pretrained
+/server/MMFusion_IML/ckpt

@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings("ignore")
+
 import argparse
 import os
 import numpy as np
@@ -7,16 +10,16 @@ import torch
 import torchvision.transforms.functional as TF
 import logging
 import matplotlib.pyplot as plt
-from data.datasets import ManipulationDataset
-from models.cmnext_conf import CMNeXtWithConf
-from models.modal_extract import ModalitiesExtractor
-from configs.cmnext_init_cfg import _C as config, update_config
+from MMFusion_IML.data.datasets import ManipulationDataset
+from MMFusion_IML.models.cmnext_conf import CMNeXtWithConf
+from MMFusion_IML.models.modal_extract import ModalitiesExtractor
+from MMFusion_IML.configs.cmnext_init_cfg import _C as config, update_config
 
 parser = argparse.ArgumentParser(description='Infer')
-parser.add_argument('-gpu', '--gpu', type=int, default=0, help='device, use -1 for cpu')
+parser.add_argument('-gpu', '--gpu', type=int, default=-1, help='device, use -1 for cpu')
 parser.add_argument('-log', '--log', type=str, default='INFO', help='logging level')
-parser.add_argument('-exp', '--exp', type=str, default='experiments/ec_example_phase2.yaml', help='Yaml experiment file')
-parser.add_argument('-ckpt', '--ckpt', type=str, default='ckpt/early_fusion_detection.pth', help='Checkpoint')
+parser.add_argument('-exp', '--exp', type=str, default='MMFusion_IML/experiments/ec_example_phase2.yaml', help='Yaml experiment file')
+parser.add_argument('-ckpt', '--ckpt', type=str, default='MMFusion_IML/ckpt/early_fusion_detection.pth', help='Checkpoint')
 parser.add_argument('-path', '--path', type=str, default='example.png', help='Image path')
 parser.add_argument('opts', help="other options", default=None, nargs=argparse.REMAINDER)
 
@@ -131,7 +134,7 @@ def main():
 
     model = CMNeXtWithConf(config.MODEL)
 
-    ckpt = torch.load(args.ckpt)
+    ckpt = torch.load(args.ckpt, map_location=torch.device('cpu'))
 
     model.load_state_dict(ckpt['state_dict'])
     modal_extractor.load_state_dict(ckpt['extractor_state_dict'])
@@ -142,7 +145,7 @@ def main():
     model.eval()
 
     mask_name = os.path.basename(args.path).split(".")[0]+"_mask.png"
-    output_dir = r"..\server\masks"
+    output_dir = r"server/masks"
 
     target = os.path.join(output_dir, mask_name)
     # target = args.path.split(".")[-2] + "_mask.png"
@@ -175,13 +178,75 @@ def main():
             gt = masks.squeeze().cpu().numpy()
             map = torch.nn.functional.softmax(anomaly, dim=1)[:, 1, :, :].squeeze().cpu().numpy()
             det = detection.item()
-            with open(r'..\.\server\accuracy.txt', 'w') as file:
+            with open(r'server\accuracy.txt', 'w') as file:
                 file.write(str(det))
 
             plt.imsave(target, map, cmap='RdBu_r', vmin=0, vmax=1)
             convertHeatmapToEdge(target)
     os.remove('tmp_inf.txt')
     print(f"Ran on {args.path}")
+    print(f"Detection score: {det}")
+    print(f"Localization map saved in {target}")
+
+def serve_model(exp="", ckpt=""):
+    serve_config = update_config(config, exp)
+
+    modal_extractor = ModalitiesExtractor(serve_config.MODEL.MODALS[1:], serve_config.MODEL.NP_WEIGHTS)
+
+    model = CMNeXtWithConf(serve_config.MODEL)
+
+    checkpoint = torch.load(ckpt, map_location=torch.device('cpu'))
+
+    model.load_state_dict(checkpoint['state_dict'])
+    modal_extractor.load_state_dict(checkpoint['extractor_state_dict'])
+
+    modal_extractor.to(device)
+    model = model.to(device)
+    modal_extractor.eval()
+    model.eval()
+
+    return model, modal_extractor
+
+def segment_manipulation_region(path, model, modal_extractor):
+    mask_name = os.path.basename(path).split(".")[0]+"_mask.png"
+    output_dir = r"/Users/dungnd/Desktop/Workspace/graduation-project/server/masks"
+
+    target = os.path.join(output_dir, mask_name)
+
+    with open('tmp_inf.txt', 'w') as f:
+        f.write(path + ' None 0\n')
+
+    val = ManipulationDataset('tmp_inf.txt',
+                            config.DATASET.IMG_SIZE,
+                            train=False)
+    val_loader = DataLoader(val,
+                            batch_size=1,
+                            shuffle=False,
+                            num_workers=config.WORKERS,
+                            pin_memory=True)
+    
+    for step, (images, _, masks, lab) in enumerate(val_loader):
+        with torch.no_grad():
+            images = images.to(device, non_blocking=True)
+            masks = masks.squeeze(1).to(device, non_blocking=True)
+
+            modals = modal_extractor(images)
+
+            images_norm = TF.normalize(images, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+            inp = [images_norm] + modals
+
+            anomaly, confidence, detection = model(inp)
+
+            gt = masks.squeeze().cpu().numpy()
+            map = torch.nn.functional.softmax(anomaly, dim=1)[:, 1, :, :].squeeze().cpu().numpy()
+            det = detection.item()
+            with open(r'server\accuracy.txt', 'w') as file:
+                file.write(str(det))
+
+            plt.imsave(target, map, cmap='RdBu_r', vmin=0, vmax=1)
+            convertHeatmapToEdge(target)
+    os.remove('tmp_inf.txt')
+    print(f"Ran on {path}")
     print(f"Detection score: {det}")
     print(f"Localization map saved in {target}")
 

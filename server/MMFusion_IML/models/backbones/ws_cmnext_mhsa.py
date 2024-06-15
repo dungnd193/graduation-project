@@ -5,13 +5,13 @@ in August 2023 @ ITI-CERTH
 import torch
 from torch import nn, Tensor
 from torch.nn import functional as F
-from models.layers import DropPath
 import functools
 from functools import partial
-from models.modules.ffm import FeatureFusionModule as FFM
-from models.modules.ffm import FeatureRectifyModule as FRM
-from models.modules.ffm import ChannelEmbed
-from common.utils import nchw_to_nlc, nlc_to_nchw
+from MMFusion_IML.models.layers import DropPath
+from MMFusion_IML.models.modules.ffm import FeatureFusionModule as FFM
+from MMFusion_IML.models.modules.ffm import FeatureRectifyModule as FRM
+from MMFusion_IML.models.modules.ffm import ChannelEmbed
+from MMFusion_IML.common.utils import nchw_to_nlc, nlc_to_nchw
 
 
 class Attention(nn.Module):

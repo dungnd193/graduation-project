@@ -15,11 +15,12 @@ import os
 from sqlalchemy.orm import joinedload
 import cv2
 import numpy as np
-
+import time
 from keras.models import load_model
 from PIL import Image, ImageChops, ImageEnhance
 import numpy as np
 
+from MMFusion_IML.inference import serve_model, segment_manipulation_region
 
 
 
@@ -43,11 +44,11 @@ be_models.Base.metadata.create_all(bind=engine)
 class UserBase(BaseModel):
     id: int = None
     username: str
-    password: str
+    password: str = None
     email: str
     phone_number: str
-    role_id: int
-    group_id: int
+    role_id: int = None
+    group_id: int = None
     status: str
 
 class UserWithoutPasswordBase(BaseModel):
@@ -207,6 +208,31 @@ def get_db():
     finally:
         db.close()
 
+@app.on_event("startup")
+async def startup_event():
+    print("App server start!!")
+    global served_models
+    served_models = []
+    
+    try:
+        db = next(get_db())
+        mods = db.query(be_models.Model).all()
+        all_model_paths = [{"id": mod.id, "model_type": mod.model_type, "path": mod.path} for mod in mods]
+        exp = r'/Users/dungnd/Desktop/Workspace/graduation-project/server/MMFusion_IML/experiments/ec_example_phase2.yaml'
+
+        for model_info in all_model_paths:
+            if model_info["model_type"] == "LOCALIZATION":
+                model_id = model_info['id']
+                ckpt = model_info['path']
+                try:
+                    model, modal_extractor = serve_model(exp, ckpt)
+                    served_models.append({f'id': model_id, f'served_model_{model_id}': model, f'served_modal_extractor_{model_id}': modal_extractor})
+                except Exception as e:
+                    print(f"Error loading model {model_id} from {ckpt}: {e}")
+        
+    finally:
+        db.close()
+
 def get_current_user(request: Request, db: Session = Depends(get_db)):
     try:
         token = request.headers.get("Authorization")
@@ -235,8 +261,8 @@ def get_current_user(request: Request, db: Session = Depends(get_db)):
 
 async def forgery_image_predict(upload_file: UploadFile, user_id, classification_model_id, localization_model_id, model_loaded, loc_model_path, db: Session):
     try:
-        input_images_directory = "D:\\dungnd\\GraduationProject\\server\\input_images"
-        masks_directory="D:\\dungnd\\GraduationProject\\server\\masks"
+        input_images_directory = "/Users/dungnd/Desktop/Workspace/graduation-project/server/input_images"
+        masks_directory="/Users/dungnd/Desktop/Workspace/graduation-project/server/masks"
 
         if not os.path.exists(input_images_directory):
             os.makedirs(input_images_directory)
@@ -252,19 +278,28 @@ async def forgery_image_predict(upload_file: UploadFile, user_id, classification
         
         label, acc = forgery_image_test(image_path=file_path, model_loaded=model_loaded)
         if label == "Fake":
-            mask_file_name = os.path.splitext(os.path.basename(file_path))[0]+"_mask.png"
-            mask_path = os.path.join(masks_directory, mask_file_name)
-            call(["python", 
-                r"D:\dungnd\GraduationProject\MMFusion-IML\inference.py", 
-                "--exp", r'D:\dungnd\GraduationProject\MMFusion-IML\experiments\ec_example_phase2.yaml',
-                "--ckpt", loc_model_path,
-                "--path", file_path])
-            try:
-                with open("accuracy.txt", 'r') as file:
-                    localization_accuracy = float(file.read().strip())  # Read the content and remove any leading/trailing whitespace
-                os.remove("accuracy.txt")
-            except FileNotFoundError:
-                print("File not found. Please make sure the file path is correct.")
+            for model_info in served_models:
+                if model_info['id'] == localization_model_id:
+                    mask_file_name = os.path.splitext(os.path.basename(file_path))[0]+"_mask.png"
+                    mask_path = os.path.join(masks_directory, mask_file_name)
+
+                    model =  model_info[f'served_model_{localization_model_id}']
+                    modal_extractor =  model_info[f'served_modal_extractor_{localization_model_id}']
+                    start_time= time.time()
+                    segment_manipulation_region(path=file_path, model=model, modal_extractor=modal_extractor)
+                    stop_time= time.time()
+                    print("DURATION:", stop_time-start_time)
+                    # call(["python3", 
+                    #     r"/Users/dungnd/Desktop/Workspace/graduation-project/server/MMFusion_IML/inference.py", 
+                    #     "--exp", r'/Users/dungnd/Desktop/Workspace/graduation-project/server/MMFusion_IML/experiments/ec_example_phase2.yaml',
+                    #     "--ckpt", loc_model_path,
+                    #     "--path", file_path])
+                    try:
+                        with open(r'server\accuracy.txt', 'r') as file:
+                            localization_accuracy = float(file.read().strip())  # Read the content and remove any leading/trailing whitespace
+                        os.remove(r'server\accuracy.txt')
+                    except FileNotFoundError:
+                        print("File not found. Please make sure the file path is correct.")
         else:
             mask_file_name = ""
             mask_path = ""
@@ -294,8 +329,8 @@ async def forgery_image_predict(upload_file: UploadFile, user_id, classification
 
 async def ai_generated_predict(upload_file: UploadFile, user_id, classification_model_id, localization_model_id, model_loaded, loc_model_path, db: Session):
     try:
-        input_images_directory = "D:\\dungnd\\GraduationProject\\server\\input_images"
-        masks_directory="D:\\dungnd\\GraduationProject\\server\\masks"
+        input_images_directory = "/Users/dungnd/Desktop/Workspace/graduation-project/server/input_images"
+        masks_directory="/Users/dungnd/Desktop/Workspace/graduation-project/server/masks"
 
         if not os.path.exists(input_images_directory):
             os.makedirs(input_images_directory)
@@ -357,6 +392,9 @@ async def login(credentials: LogInBase, db: db_dependency):
     user = db.query(be_models.User).filter(be_models.User.username == credentials.username).first()
     if user is None or not verify_password(credentials.password, user.password):
         raise HTTPException(status_code=401, detail="Invalid username or password")
+    print(user.status)
+    if user.status == "DEACTIVE" :
+        raise HTTPException(status_code=403, detail="User deactived, please contact admin!")
     
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
@@ -504,11 +542,13 @@ async def update_user(updated_user: UserBase, db: db_dependency):
         raise HTTPException(status_code=404, detail="User not found")
  
     existing_user.username = updated_user.username
-    existing_user.password = hash_password(updated_user.password)
+    if updated_user.password:
+        existing_user.password = hash_password(updated_user.password)
     existing_user.email = updated_user.email
     existing_user.phone_number = updated_user.phone_number
     existing_user.role_id = updated_user.role_id
-    existing_user.group_id = updated_user.group_id,
+    if updated_user.group_id:
+        existing_user.group_id = updated_user.group_id,
     existing_user.status = updated_user.status
 
     db.commit()
@@ -597,9 +637,25 @@ async def delete_group(group_id: int, db: db_dependency):
 
 @app.post("/models/", status_code=status.HTTP_201_CREATED)
 async def create_model(model: ModelBase, db: db_dependency):
-    db_model = be_models.Model(**model.dict())
-    db.add(db_model)
-    db.commit()
+    try:
+        db_model = be_models.Model(**model.dict())
+        db.add(db_model)
+        db.commit()
+        db.refresh(db_model)
+
+        # Check the model type and serve the model if necessary
+        if db_model.model_type == "LOCALIZATION":
+            exp = r'/Users/dungnd/Desktop/Workspace/graduation-project/server/MMFusion_IML/experiments/ec_example_phase2.yaml'
+
+            model_id = db_model.id
+            ckpt = db_model.path
+            try:
+                model, modal_extractor = serve_model(exp, ckpt)
+                served_models.append({f'id': model_id, f'served_model_{model_id}': model, f'served_modal_extractor_{model_id}': modal_extractor})
+            except Exception as e:
+                print(f"Error loading model {model_id} from {ckpt}: {e}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/models/", status_code=status.HTTP_200_OK)
 async def get_all_models(db: db_dependency) -> list[ModelBase]:
@@ -616,25 +672,44 @@ async def get_models_by_name(db: db_dependency, name: str = None) -> List[ModelB
         mods = db.query(be_models.Model).all()
     return mods
 
-@app.put("/models/{classification_model_id}", status_code=status.HTTP_200_OK)
-async def update_model(classification_model_id: int, updated_model: ModelBase, db: db_dependency):
-    existing_model = db.query(be_models.Model).filter(be_models.Model.id == classification_model_id).first()
-    if existing_model is None:
-        raise HTTPException(status_code=404, detail="Model not found")
+@app.put("/models/{model_id}", status_code=status.HTTP_200_OK)
+async def update_model(model_id: int, updated_model: ModelBase, db: db_dependency):
+    try:
+        existing_model = db.query(be_models.Model).filter(be_models.Model.id == model_id).first()
+        if existing_model is None:
+            raise HTTPException(status_code=404, detail="Model not found")
 
-    # Update the existing model with the new information
-    existing_model.name = updated_model.name
-    existing_model.path = updated_model.path
-    existing_model.accuracy = updated_model.accuracy
-    existing_model.precision = updated_model.precision
-    existing_model.recall = updated_model.recall
-    existing_model.f1_score = updated_model.f1_score
-    existing_model.model_type = updated_model.model_type
-    existing_model.version = updated_model.version
+        # Update the existing model with the new information
+        existing_model.name = updated_model.name
+        existing_model.path = updated_model.path
+        existing_model.accuracy = updated_model.accuracy
+        existing_model.precision = updated_model.precision
+        existing_model.recall = updated_model.recall
+        existing_model.f1_score = updated_model.f1_score
+        existing_model.model_type = updated_model.model_type
+        existing_model.version = updated_model.version
 
-    db.commit()
+        db.commit()
+        db.refresh(existing_model)
 
-    return {"message": "Model updated successfully"}
+        # Check the model type and serve the model if necessary
+        if existing_model.model_type == "LOCALIZATION":
+            exp = r'/Users/dungnd/Desktop/Workspace/graduation-project/server/MMFusion_IML/experiments/ec_example_phase2.yaml'
+
+            model_id = existing_model.id
+            ckpt = existing_model.path
+            try:
+                model, modal_extractor = serve_model(exp, ckpt)
+                for model_info in served_models:
+                    if model_info["id"] == model_id:
+                        model_info[f'served_model_{model_id}'] = model
+                        model_info[f'served_modal_extractor_{model_id}'] = modal_extractor
+            except Exception as e:
+                print(f"Error loading model {model_id} from {ckpt}: {e}")
+
+        return {"message": "Model updated successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.delete("/models/{model_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_model(model_id: int, db: db_dependency):
@@ -724,7 +799,7 @@ async def create_prediction(user_id: int, classification_model_id: int, localiza
 
 @app.get("/images/{type}/{image_filename}", response_class=FileResponse)
 async def get_image(type: str, image_filename: str):
-    dir = "D:\\dungnd\\GraduationProject\\server"
+    dir = "/Users/dungnd/Desktop/Workspace/graduation-project/server"
     image_path = os.path.join(dir, type, image_filename)
     if not os.path.exists(image_path):
         raise HTTPException(status_code=404, detail="Image not found")
