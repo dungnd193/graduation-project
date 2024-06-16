@@ -134,7 +134,7 @@ def main():
 
     model = CMNeXtWithConf(config.MODEL)
 
-    ckpt = torch.load(args.ckpt, map_location=torch.device('cpu'))
+    ckpt = torch.load(args.ckpt)
 
     model.load_state_dict(ckpt['state_dict'])
     modal_extractor.load_state_dict(ckpt['extractor_state_dict'])
@@ -178,7 +178,7 @@ def main():
             gt = masks.squeeze().cpu().numpy()
             map = torch.nn.functional.softmax(anomaly, dim=1)[:, 1, :, :].squeeze().cpu().numpy()
             det = detection.item()
-            with open(r'server\accuracy.txt', 'w') as file:
+            with open(r'D:\dungnd\GraduationProject\server\accuracy.txt', 'w') as file:
                 file.write(str(det))
 
             plt.imsave(target, map, cmap='RdBu_r', vmin=0, vmax=1)
@@ -195,7 +195,7 @@ def serve_model(exp="", ckpt=""):
 
     model = CMNeXtWithConf(serve_config.MODEL)
 
-    checkpoint = torch.load(ckpt, map_location=torch.device('cpu'))
+    checkpoint = torch.load(ckpt)
 
     model.load_state_dict(checkpoint['state_dict'])
     modal_extractor.load_state_dict(checkpoint['extractor_state_dict'])
@@ -209,7 +209,7 @@ def serve_model(exp="", ckpt=""):
 
 def segment_manipulation_region(path, model, modal_extractor):
     mask_name = os.path.basename(path).split(".")[0]+"_mask.png"
-    output_dir = r"/Users/dungnd/Desktop/Workspace/graduation-project/server/masks"
+    output_dir = r"D:\dungnd\GraduationProject\server\masks"
 
     target = os.path.join(output_dir, mask_name)
 
@@ -240,7 +240,7 @@ def segment_manipulation_region(path, model, modal_extractor):
             gt = masks.squeeze().cpu().numpy()
             map = torch.nn.functional.softmax(anomaly, dim=1)[:, 1, :, :].squeeze().cpu().numpy()
             det = detection.item()
-            with open(r'server\accuracy.txt', 'w') as file:
+            with open(r'accuracy.txt', 'w') as file:
                 file.write(str(det))
 
             plt.imsave(target, map, cmap='RdBu_r', vmin=0, vmax=1)

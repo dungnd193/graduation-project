@@ -174,47 +174,49 @@ function ModelManagement() {
                     />
                 </div>}
                 {!loading && <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell sx={{ width: '70px' }}>Id</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '200px' }}>Model name</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '100px' }}>Accuracy</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '100px' }}>Precision</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '100px' }}>Recall</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '100px' }}>F1 Score</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '100px' }}>Version</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '100px' }}>Model type</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '500px' }}>Path</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '350px' }}>Description</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ textAlign: 'center' }}>Action</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {modelPerPage.map((model, idx) => (
-                                <TableRow key={idx}>
-                                    <StyledTableCell component="th" scope="row">
-                                        {model.id}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="right">{model.name}</StyledTableCell>
-                                    <StyledTableCell align="right">{floatToPercentage(model.accuracy)}</StyledTableCell>
-                                    <StyledTableCell align="right">{floatToPercentage(model.precision)}</StyledTableCell>
-                                    <StyledTableCell align="right">{floatToPercentage(model.recall)}</StyledTableCell>
-                                    <StyledTableCell align="right">{floatToPercentage(model.f1_score)}</StyledTableCell>
-                                    <StyledTableCell align="right">{model.version}</StyledTableCell>
-                                    <StyledTableCell align="right">{model.model_type}</StyledTableCell>
-                                    <StyledTableCell align="right">{model.path}</StyledTableCell>
-                                    <StyledTableCell align="right">{model.description}</StyledTableCell>
-                                    <StyledTableCell align="right">
-                                        <div className={classes.btnActionGroup}>
-                                            <button className={classes.btnAction} style={{ backgroundColor: "#d79f59" }} onClick={() => handleOpenUpdateModal(model)}>UPDATE</button>
-                                            <button className={classes.btnAction} style={{ backgroundColor: "#585858" }} onClick={() => handleDeleteModel(model.id)}>DELETE</button>
-                                        </div>
-                                    </StyledTableCell>
+                    <div style={{ overflowX: 'auto' }}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table" >
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell sx={{ width: '70px' }}>Id</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '200px' }}>Model name</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '100px' }}>Accuracy</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '100px' }}>Precision</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '100px' }}>Recall</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '100px' }}>F1 Score</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '100px' }}>Version</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '100px' }}>Model type</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '500px' }}>Path</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '350px' }}>Description</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ textAlign: 'center' }}>Action</StyledTableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHead>
+                            <TableBody>
+                                {modelPerPage.map((model, idx) => (
+                                    <TableRow key={idx}>
+                                        <StyledTableCell component="th" scope="row">
+                                            {model.id}
+                                        </StyledTableCell>
+                                        <StyledTableCell align="right">{model.name}</StyledTableCell>
+                                        <StyledTableCell align="right">{floatToPercentage(model.accuracy)}</StyledTableCell>
+                                        <StyledTableCell align="right">{floatToPercentage(model.precision)}</StyledTableCell>
+                                        <StyledTableCell align="right">{floatToPercentage(model.recall)}</StyledTableCell>
+                                        <StyledTableCell align="right">{floatToPercentage(model.f1_score)}</StyledTableCell>
+                                        <StyledTableCell align="right">{model.version}</StyledTableCell>
+                                        <StyledTableCell align="right">{model.model_type}</StyledTableCell>
+                                        <StyledTableCell align="right">{model.path}</StyledTableCell>
+                                        <StyledTableCell align="right">{model.description}</StyledTableCell>
+                                        <StyledTableCell align="right">
+                                            <div className={classes.btnActionGroup}>
+                                                <button className={classes.btnAction} style={{ backgroundColor: "#d79f59" }} onClick={() => handleOpenUpdateModal(model)}>UPDATE</button>
+                                                <button className={classes.btnAction} style={{ backgroundColor: "#585858" }} onClick={() => handleDeleteModel(model.id)}>DELETE</button>
+                                            </div>
+                                        </StyledTableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 15]}
                         component="div"
@@ -327,7 +329,7 @@ function ModelManagement() {
                             setModelInfo((state) => ({ ...state, description: e.target.value }))
                         }
                     />
-                    
+
                     <span className="modalText">Path</span>
                     <input
                         type="text"

@@ -218,7 +218,7 @@ async def startup_event():
         db = next(get_db())
         mods = db.query(be_models.Model).all()
         all_model_paths = [{"id": mod.id, "model_type": mod.model_type, "path": mod.path} for mod in mods]
-        exp = r'/Users/dungnd/Desktop/Workspace/graduation-project/server/MMFusion_IML/experiments/ec_example_phase2.yaml'
+        exp = r'D:\dungnd\GraduationProject\server\MMFusion_IML\experiments\ec_example_phase2.yaml'
 
         for model_info in all_model_paths:
             if model_info["model_type"] == "LOCALIZATION":
@@ -261,8 +261,8 @@ def get_current_user(request: Request, db: Session = Depends(get_db)):
 
 async def forgery_image_predict(upload_file: UploadFile, user_id, classification_model_id, localization_model_id, model_loaded, loc_model_path, db: Session):
     try:
-        input_images_directory = "/Users/dungnd/Desktop/Workspace/graduation-project/server/input_images"
-        masks_directory="/Users/dungnd/Desktop/Workspace/graduation-project/server/masks"
+        input_images_directory = r"D:\dungnd\GraduationProject\server\input_images"
+        masks_directory= r"D:\dungnd\GraduationProject\server\masks"
 
         if not os.path.exists(input_images_directory):
             os.makedirs(input_images_directory)
@@ -278,6 +278,23 @@ async def forgery_image_predict(upload_file: UploadFile, user_id, classification
         
         label, acc = forgery_image_test(image_path=file_path, model_loaded=model_loaded)
         if label == "Fake":
+            # mask_file_name = os.path.splitext(os.path.basename(file_path))[0]+"_mask.png"
+            # mask_path = os.path.join(masks_directory, mask_file_name)
+            # start_time= time.time()
+            # call(["python", 
+            #     r"D:\dungnd\GraduationProject\MMFusion_IML\inference.py", 
+            #     "--exp", r'D:\dungnd\GraduationProject\MMFusion_IML\experiments\ec_example_phase2.yaml',
+            #     "--ckpt", loc_model_path,
+            #     "--path", file_path])
+            # stop_time= time.time()
+            # print("DURATION:", stop_time-start_time)
+            
+            # try:
+            #     with open(r'D:\dungnd\GraduationProject\server\accuracy.txt', 'r') as file:
+            #         localization_accuracy = float(file.read().strip())  # Read the content and remove any leading/trailing whitespace
+            #     os.remove(r'D:\dungnd\GraduationProject\server\accuracy.txt')
+            # except FileNotFoundError:
+            #     print("File not found. Please make sure the file path is correct.")
             for model_info in served_models:
                 if model_info['id'] == localization_model_id:
                     mask_file_name = os.path.splitext(os.path.basename(file_path))[0]+"_mask.png"
@@ -289,15 +306,10 @@ async def forgery_image_predict(upload_file: UploadFile, user_id, classification
                     segment_manipulation_region(path=file_path, model=model, modal_extractor=modal_extractor)
                     stop_time= time.time()
                     print("DURATION:", stop_time-start_time)
-                    # call(["python3", 
-                    #     r"/Users/dungnd/Desktop/Workspace/graduation-project/server/MMFusion_IML/inference.py", 
-                    #     "--exp", r'/Users/dungnd/Desktop/Workspace/graduation-project/server/MMFusion_IML/experiments/ec_example_phase2.yaml',
-                    #     "--ckpt", loc_model_path,
-                    #     "--path", file_path])
                     try:
-                        with open(r'server\accuracy.txt', 'r') as file:
+                        with open(r'accuracy.txt', 'r') as file:
                             localization_accuracy = float(file.read().strip())  # Read the content and remove any leading/trailing whitespace
-                        os.remove(r'server\accuracy.txt')
+                        os.remove(r'accuracy.txt')
                     except FileNotFoundError:
                         print("File not found. Please make sure the file path is correct.")
         else:
@@ -329,8 +341,8 @@ async def forgery_image_predict(upload_file: UploadFile, user_id, classification
 
 async def ai_generated_predict(upload_file: UploadFile, user_id, classification_model_id, localization_model_id, model_loaded, loc_model_path, db: Session):
     try:
-        input_images_directory = "/Users/dungnd/Desktop/Workspace/graduation-project/server/input_images"
-        masks_directory="/Users/dungnd/Desktop/Workspace/graduation-project/server/masks"
+        input_images_directory = r"D:\dungnd\GraduationProject\server\input_images"
+        masks_directory= r"D:\dungnd\GraduationProject\server\masks"
 
         if not os.path.exists(input_images_directory):
             os.makedirs(input_images_directory)
@@ -645,7 +657,7 @@ async def create_model(model: ModelBase, db: db_dependency):
 
         # Check the model type and serve the model if necessary
         if db_model.model_type == "LOCALIZATION":
-            exp = r'/Users/dungnd/Desktop/Workspace/graduation-project/server/MMFusion_IML/experiments/ec_example_phase2.yaml'
+            exp = r'D:\dungnd\GraduationProject\server\MMFusion_IML\experiments\ec_example_phase2.yaml'
 
             model_id = db_model.id
             ckpt = db_model.path
@@ -694,7 +706,7 @@ async def update_model(model_id: int, updated_model: ModelBase, db: db_dependenc
 
         # Check the model type and serve the model if necessary
         if existing_model.model_type == "LOCALIZATION":
-            exp = r'/Users/dungnd/Desktop/Workspace/graduation-project/server/MMFusion_IML/experiments/ec_example_phase2.yaml'
+            exp = r'D:\dungnd\GraduationProject\server\MMFusion_IML\experiments\ec_example_phase2.yaml'
 
             model_id = existing_model.id
             ckpt = existing_model.path
@@ -799,7 +811,7 @@ async def create_prediction(user_id: int, classification_model_id: int, localiza
 
 @app.get("/images/{type}/{image_filename}", response_class=FileResponse)
 async def get_image(type: str, image_filename: str):
-    dir = "/Users/dungnd/Desktop/Workspace/graduation-project/server"
+    dir = r"D:\dungnd\GraduationProject\server"
     image_path = os.path.join(dir, type, image_filename)
     if not os.path.exists(image_path):
         raise HTTPException(status_code=404, detail="Image not found")

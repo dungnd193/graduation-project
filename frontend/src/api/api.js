@@ -1,5 +1,5 @@
 const API = {
-    BASE_API_URL: `${process.env.REACT_APP_BASE_API_URL}:8000`,
+    BASE_API_URL: `${process.env.REACT_APP_BASE_API_URL || "http://localhost"}:8000`,
     LOGIN: '/login',
     SIGN_UP: '/users/',
     USER_INFO: '/user/current',

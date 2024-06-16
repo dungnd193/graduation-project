@@ -103,7 +103,7 @@ function PredictImage() {
     }
 
     const handleMaskPath = (mask_path) => {
-        return mask_path.replace("/Users/dungnd/Desktop/Workspace/graduation-project/server/", `${process.env.REACT_APP_BASE_API_URL}:8000\/images/`).replaceAll("\\", "\/")
+        return mask_path.replace("D:\\dungnd\\GraduationProject\\server\\", `${process.env.REACT_APP_BASE_API_URL || "http://localhost"}:8000\/images/`).replaceAll("\\", "\/")
     }
 
     const floatToPercentage = (number) => {

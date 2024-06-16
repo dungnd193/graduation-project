@@ -9,7 +9,7 @@ from collections import OrderedDict
 def load_dualpath_model(model, model_file):
     # load raw state_dict
     if isinstance(model_file, str):
-        raw_state_dict = torch.load(model_file, map_location=torch.device('cpu'))
+        raw_state_dict = torch.load(model_file)
         # raw_state_dict = torch.load(model_file)
         if 'model' in raw_state_dict.keys():
             raw_state_dict = raw_state_dict['model']
@@ -65,7 +65,7 @@ class BaseModel(nn.Module):
             if len(self.modals) > 1:
                 load_dualpath_model(self.backbone, pretrained)
             else:
-                checkpoint = torch.load(pretrained, map_location='cpu')
+                checkpoint = torch.load(pretrained)
                 if 'state_dict' in checkpoint.keys():
                     checkpoint = checkpoint['state_dict']
                 # if 'PoolFormer' in self.__class__.__name__:

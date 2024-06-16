@@ -119,11 +119,11 @@ class WSCMNeXtWithConf(BaseModel):
 def load_dualpath_model(model, model_file, backbone):
     extra_pretrained = model_file if 'MHSA' in backbone else None
     if isinstance(extra_pretrained, str):
-        raw_state_dict_ext = torch.load(extra_pretrained, map_location=torch.device('cpu'))
+        raw_state_dict_ext = torch.load(extra_pretrained)
         if 'state_dict' in raw_state_dict_ext.keys():
             raw_state_dict_ext = raw_state_dict_ext['state_dict']
     if isinstance(model_file, str):
-        raw_state_dict = torch.load(model_file, map_location=torch.device('cpu'))
+        raw_state_dict = torch.load(model_file)
         if 'model' in raw_state_dict.keys():
             raw_state_dict = raw_state_dict['model']
     else:

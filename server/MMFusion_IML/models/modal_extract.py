@@ -29,7 +29,7 @@ class ModalitiesExtractor(nn.Module):
             if noiseprint_path:
                 np_weights = noiseprint_path
                 assert os.path.isfile(np_weights)
-                dat = torch.load(np_weights, map_location=torch.device('cpu'))
+                dat = torch.load(np_weights)
                 logging.info(f'Noiseprint++ weights: {np_weights}')
                 self.noiseprint.load_state_dict(dat)
 

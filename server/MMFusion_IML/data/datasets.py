@@ -73,7 +73,7 @@ class ManipulationDataset(Dataset):
         self.image_size = image_size
         self.image_paths = []
         self.mask_paths = []
-        self.base_path = r'/Users/dungnd/Desktop/Workspace/graduation-project/server/MMFusion_IML/data'
+        self.base_path = r'D:\dungnd\GraduationProject\server\MMFusion_IML\data'
         self.labels = []
         self.name = self.path.split('/')[-1].replace('.txt', '').replace('IDT-', '')
 
