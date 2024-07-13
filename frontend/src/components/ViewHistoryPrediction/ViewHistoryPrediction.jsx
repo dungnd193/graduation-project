@@ -48,7 +48,7 @@ function ViewHistoryPrediction() {
     const user = useSelector(state => state.userInformationSlice.user)
     const [histPerPage, setHistPerPage] = useState([])
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [open, setOpen] = useState(false)
     const [opacity, setOpacity] = useState(1);
     const [scale, setScale] = useState(1);
@@ -158,48 +158,50 @@ function ViewHistoryPrediction() {
                 </div>
                 <h2 className={classes.title}>History Prediction</h2>
                 <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell sx={{ width: '70px' }}>Id</StyledTableCell>
-                                {user.role_id == ROLE.ADMIN &&<StyledTableCell align="right" sx={{ width: '120px' }}>Username</StyledTableCell>}
-                                <StyledTableCell align="right" sx={{ width: '200px' }}>Classification model name</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '200px' }}>Localization model name</StyledTableCell>
-                                {/* <StyledTableCell align="right" sx={{ width: '100px' }}>Input image path</StyledTableCell> */}
-                                <StyledTableCell align="right" sx={{ width: '100px' }}>Mask</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '100px' }}>Label</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '100px' }}>Classification accuracy</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '100px' }}>Localization accuracy</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '100px' }}>Result</StyledTableCell>
-                                <StyledTableCell align="right" sx={{ width: '150px' }}>Date</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {histPerPage.map((hist, idx) => (
-                                <TableRow key={idx}>
-                                    <StyledTableCell component="th" scope="row">
-                                        {hist.id}
-                                    </StyledTableCell>
-                                    {user.role_id == ROLE.ADMIN && <StyledTableCell align="right">{hist.username}</StyledTableCell>}
-                                    <StyledTableCell align="right">{handleModelName(hist.classification_model_id)}</StyledTableCell>
-                                    <StyledTableCell align="right">{handleModelName(hist.localization_model_id)}</StyledTableCell>
-                                    {/* <StyledTableCell align="right">{hist.input_img_path}</StyledTableCell> */}
-                                    <StyledTableCell align="right">{hist.output_img_path}</StyledTableCell>
-                                    <StyledTableCell align="right">{hist.label}</StyledTableCell>
-                                    <StyledTableCell align="right">{(hist.classification_accuracy)}%</StyledTableCell>
-                                    <StyledTableCell align="right">{(hist.localization_accuracy || 0)}%</StyledTableCell>
-                                    <StyledTableCell
-                                        align="right"
-                                        onClick={() => getHistById(hist.id)}
-                                        style={{ textDecoration: 'underline', color: '#57a1f8', cursor: 'pointer' }}
-                                    >
-                                        View result
-                                    </StyledTableCell>
-                                    <StyledTableCell align="right">{moment(hist.creat_at).format('DD/MM/YYYY hh:mm:ss')}</StyledTableCell>
+                    <div style={{ overflowX: "scroll" }}>
+                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell sx={{ width: '70px' }}>Id</StyledTableCell>
+                                    {user.role_id == ROLE.ADMIN && <StyledTableCell align="right" sx={{ width: '120px' }}>Username</StyledTableCell>}
+                                    <StyledTableCell align="right" sx={{ width: '200px' }}>Classification model name</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '200px' }}>Localization model name</StyledTableCell>
+                                    {/* <StyledTableCell align="right" sx={{ width: '100px' }}>Input image path</StyledTableCell> */}
+                                    <StyledTableCell align="right" sx={{ width: '100px' }}>Mask</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '100px' }}>Label</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '100px' }}>Classification confidence score</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '100px' }}>Localization confidence score</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '100px' }}>Result</StyledTableCell>
+                                    <StyledTableCell align="right" sx={{ width: '150px' }}>Date</StyledTableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHead>
+                            <TableBody>
+                                {histPerPage.map((hist, idx) => (
+                                    <TableRow key={idx}>
+                                        <StyledTableCell component="th" scope="row">
+                                            {hist.id}
+                                        </StyledTableCell>
+                                        {user.role_id == ROLE.ADMIN && <StyledTableCell align="right">{hist.username}</StyledTableCell>}
+                                        <StyledTableCell align="right">{handleModelName(hist.classification_model_id)}</StyledTableCell>
+                                        <StyledTableCell align="right">{handleModelName(hist.localization_model_id)}</StyledTableCell>
+                                        {/* <StyledTableCell align="right">{hist.input_img_path}</StyledTableCell> */}
+                                        <StyledTableCell align="right">{hist.output_img_path}</StyledTableCell>
+                                        <StyledTableCell align="right">{hist.label}</StyledTableCell>
+                                        <StyledTableCell align="right">{(hist.classification_accuracy)}%</StyledTableCell>
+                                        <StyledTableCell align="right">{(hist.localization_accuracy || 0)}%</StyledTableCell>
+                                        <StyledTableCell
+                                            align="right"
+                                            onClick={() => getHistById(hist.id)}
+                                            style={{ textDecoration: 'underline', color: '#57a1f8', cursor: 'pointer' }}
+                                        >
+                                            View result
+                                        </StyledTableCell>
+                                        <StyledTableCell align="right">{moment(hist.creat_at).format('DD/MM/YYYY hh:mm:ss')}</StyledTableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 20]}
                         component="div"
@@ -220,7 +222,8 @@ function ViewHistoryPrediction() {
                     <h3 className={classes.modalTitle}>Result</h3>
                     <span className={classes.modalText}>Image: {view_hist.input_img_path}</span>
                     <span className={classes.modalText}>Label: {view_hist.label}</span>
-                    <span className={classes.modalText}>Classification accuracy: {view_hist.classification_accuracy}%</span>
+                    <span className={classes.modalText}>Classification confidence score: {view_hist.classification_accuracy}%</span>
+                    <span className={classes.modalText}>Localization confidence score: {view_hist.localization_accuracy}%</span>
 
                     <div className={classes.modalImg} style={{ overflow: 'hidden', border: '1px solid #c4c4c4' }}>
                         <div className={classes.zoomInBtn} onClick={handleZoomIn}>+</div>

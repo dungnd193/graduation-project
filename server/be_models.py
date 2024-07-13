@@ -34,7 +34,7 @@ class Model(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(50))
-    path = Column(String(100))
+    path = Column(String(200))
     accuracy = Column(Float)
     precision = Column(Float)
     recall = Column(Float)

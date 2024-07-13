@@ -103,7 +103,7 @@ function PredictImage() {
     }
 
     const handleMaskPath = (mask_path) => {
-        return mask_path.replace("D:\\dungnd\\GraduationProject\\server\\", `${process.env.REACT_APP_BASE_API_URL || "http://localhost"}:8000\/images/`).replaceAll("\\", "\/")
+        return mask_path.replace("C:\\Users\\dungnd\\Desktop\\Workspace\\graduation-project\\server", `${process.env.REACT_APP_BASE_API_URL || "http://localhost"}:8000\\images`).replaceAll("\\", "\/")
     }
 
     const floatToPercentage = (number) => {
@@ -116,7 +116,7 @@ function PredictImage() {
 
     useEffect(() => {
         const loc_models = all_models.filter(model => model.model_type == "LOCALIZATION") || []
-        const cls_models = all_models.filter(model => model.model_type !== "LOCALIZATION") || []
+        const cls_models = all_models.filter(model => model.model_type == "FORGERY CLASSIFICATION" || model.model_type == "AI GENERATED CLASSIFICATION") || []
 
         setClsModelId(cls_models[0]?.id)
         setLocModelId(loc_models[0]?.id)
@@ -180,7 +180,7 @@ function PredictImage() {
                                 onChange={handleChangeClsModel}
                                 defaultValue={all_models[0]?.id}
                             >
-                                {all_models.filter(model => model.model_type !== "LOCALIZATION").map(model => (
+                                {all_models.filter(model => model.model_type == "FORGERY CLASSIFICATION" || model.model_type == "AI GENERATED CLASSIFICATION").map(model => (
                                     <MenuItem value={model.id}>{model.name + " " + model.version}</MenuItem>
                                 ))}
                             </Select>
@@ -242,8 +242,8 @@ function PredictImage() {
                         {imageUrl && <h3>Image type: {imgInfo.fileType}</h3>}
                         {imageUrl && <h3>Image size: {(imgInfo.fileSize / 1024).toFixed(2) + ' KB'}</h3>}
                         {result.label && <h3>Label: {result.label}</h3>}
-                        {result.classification_accuracy ? <h3>Classification accuracy: {(result.classification_accuracy / 1).toFixed(3)}%</h3> : <></>}
-                        {result.localization_accuracy && result.localization_accuracy > 0.0 ? <h3>Localization accuracy: {(result.localization_accuracy / 1).toFixed(3)}%</h3> : <></>}
+                        {result.classification_accuracy ? <h3>Classification confidence score: {(result.classification_accuracy / 1).toFixed(3)}%</h3> : <></>}
+                        {result.localization_accuracy && result.localization_accuracy > 0.0 ? <h3>Localization confidence score: {(result.localization_accuracy / 1).toFixed(3)}%</h3> : <></>}
                     </div>
                     <div className={classes.boxRight} style={{ overflow: 'hidden'}}>
                         {loading && <div className={classes.overlay}>
